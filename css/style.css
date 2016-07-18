@@ -1,7 +1,7 @@
 #map {
-	height: 800px;
+	height: 700px;
 	margin-top: 5%;
-	width: 120%;	
+	margin-left: 20%;
 }
 #injection {
 	margin-top: 5%;
@@ -72,4 +72,9 @@ footer>div>ul {
 footer>div>ul>li:hover {
 	color: black; 
 	background-color: darkgray; 
+}
+
+section#header {
+	text-align: center;
+	margin-left: 180px;
 }
