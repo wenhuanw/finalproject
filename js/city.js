@@ -425,6 +425,27 @@ myApp.controller('ListCtrl', ['$scope', '$http', 'Scopes',function ($scope, $htt
 			console.log($scope.data);
 	});
 }]);
+
+myApp.controller('TypeCtrl', ['$scope', function($scope) {
+	$scope.crimeTypes = [
+		{'type':'assult', 'value':false},
+		{'type':'hazard', 'value':false},
+		{'type':'burglary', 'value':false},
+		{'type':'noise', 'value':false},
+		{'type':'theft', 'value':false},
+		{'type':'robbery', 'value':false},
+		{'type':'traffic', 'value':false}];
+		
+	$scope.toggle = function(index) {
+		console.log(index);
+		$scope.crimeTypes[index].value = !$scope.crimeTypes[index].value;
+		console.log($scope.crimeTypes);
+	}
+}]);
+
+
+
+
 /* commenting out until i have it working
 myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
 	//refresh current location 
