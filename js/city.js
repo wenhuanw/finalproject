@@ -20,6 +20,10 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, 
 			templateUrl: 'partials/list.html',
 			controller: 'ListCtrl'
 		})
+		.state('tips', {
+			url: '/safety_tips',
+			templateUrl: 'partials/tips.html'
+		})
 
     $urlRouterProvider.otherwise('/home');
 }]);
@@ -271,7 +275,8 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 					"Traffic": $scope.traffic,
 					"Other": $scope.other
 				})
-				//console.log($scope.lcontrol);
+				console.log('$scope.lcontrol:');
+				console.log($scope.lcontrol);
 				$scope.lcontrol.addTo($scope.map);
 			}
 
