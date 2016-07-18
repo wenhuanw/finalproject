@@ -3,13 +3,35 @@
 	margin-top: 10%;
 	width: 120%;	
 }
-nav{
-	position: fixed;
-	width: 100%;
+#navMenu*{
+	z-index: 999;
+	height: 50px; 
+	background-color: #f36f25; 
+	box-shadow: 1px 2px 3px black;
 }
-ul.navBar{
-	z-index: -1;
+#navMenu>ul{
+	margin: 0;
+	padding: 0;
+	text-align: center;
 }
-a:focus, a:hover{
-	color: brown;
+#navMenu>ul>li{
+	margin: 0;
+	padding: 0;
+    display: inline-block;
+    margin-left: 15px;
+    position: relative;
+}
+#navMenu>ul>li>a{ 
+	margin: 0; 
+	padding: 0;
+}
+#navMenu > ul > li > a {
+    color: white;
+    font-size: 15px;
+    line-height: 50px;
+    padding: 16px;
+}
+#navMenu>ul>li>a:hover{
+	color: orange; 
+	background-color: darkgray; 
 }
