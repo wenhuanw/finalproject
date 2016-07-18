@@ -27,7 +27,9 @@
       <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
       <!-- load leaflet-directive -->
       <script src="http://tombatossals.github.io/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
-      <script src="js/leaflet.awesome-markers.min.js"></script>
+      <script src="js/leaflet.awesome-markers.min.js"></script>        
+      <!--Font awesome CDN-->
+      <script src="https://use.fontawesome.com/eb7deced9b.js"></script>
       <!-- load our own Angular.js -->
       <script src="js/city.js"></script>
       <script src="js/nav.js"></script>
@@ -45,7 +47,7 @@
       <nav class="container" id="navMenu" ng-controller='myNav'>
           <ul class="list-inline navBar">
               <li ng-show="isActive('/home')"><a class="navBar" aria-label="goes to home" ui-sref=".home">Home</a></li>
-              <li ng-show="isActive('/')"><a class="navBar" aria-label="goes to Crime Level" ui-sref=".">Crime Level</a></li>
+              <li ng-show="isActive('/alert')"><a class="navBar" aria-label="goes to Crime Level" ui-sref=".alert">Crime Level</a></li>
               <li ng-show="isActive('/list')"><a class="navBar" aria-label="goes to Recent Crime" ui-sref=".list">Recent Crime</a></li>
               <li ng-show="isActive('/')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".">Safety Tips</a></li>
           </ul>
@@ -57,31 +59,28 @@
       <footer>
           <div class="col-xs-3">
               <ul>
-                  Hello!
-                  <li>Contact Us</li>
-                  <li>Portfolio</li>
+                  <li><i class="fa fa-facebook-square" aria-hidden="true" aria-label="facebook logo"></i>  Contact us
+                      <ul>
+                          <li><a href="https://www.facebook.com/wenhuan.wei.7"><span>Wenhuan Wei</span></a></li>
+                          <li><a href="https://www.facebook.com/hu.xiaobo"><span>Hu XiaoBo</span></a></li>
+                          <li><a href="https://www.facebook.com/peifengjing"><span>Aayush Saxena</span></a></li>
+                          <li><a href="https://www.facebook.com/Aayush19saxena"><span>Peifeng Jing</span></a></li>
+                      </ul>
+                  </li>
               </ul>
           </div>
           <div class="col-xs-3">
               <ul>
-                  Hello!
-                  <li>Contact Us</li>
-                  <li>Portfolio</li>
+                  <li>About Us
+                      <ul><li>We are classmates in Info 343A</li></ul>
+                  </li>
               </ul>
           </div>
           <div class="col-xs-3">
-              <ul>
-                  Hello!
-                  <li>Contact Us</li>
-                  <li>Portfolio</li>
-              </ul>
+              <ul>Portfolio</ul>
           </div>
           <div class="col-xs-3">
-              <ul>
-                  Hello!
-                  <li>Contact Us</li>
-                  <li>Portfolio</li>
-              </ul>
+              <ul>FAQS</ul>
           </div>
       </footer>
    </body>
