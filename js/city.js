@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('CityApp', ['ui.router']);
+var myApp = angular.module('CityApp', ['ui.router','navApp']);
 
 myApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider

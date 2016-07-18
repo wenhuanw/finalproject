@@ -1,10 +1,11 @@
 'use strict'
-var nav = angular.module('CityApp',[]);
+var nav = angular.module('navApp',[]);
 nav.controller('myNav',['$scope', '$window', '$location', function($scope, $window, $location){
     //initalizes the page specific nav bar on load
     var initNav = function(){
         //creates a list of that we will be navigating
         $scope.navList = ["Home", "Crime Level", "Recent Crime", "Safety Tips"];
+        $scope.navContent = {};
         var removeIndex = 0;
         if(window.location.href.indexOf("#/home") != -1)
             removeIndex = 0;
@@ -14,7 +15,7 @@ nav.controller('myNav',['$scope', '$window', '$location', function($scope, $wind
             removeIndex = 2;
         else if(window.location.href.indexOf("#/home/safetytips"))
             removeIndex = 3;
-        $scope.navList.splice(index, 1);
+        $scope.navList.splice(removeIndex, 1);
         $scope.navContent.first = $scope.navList[0];
         $scope.navContent.second = $scope.navList[1];
         $scope.navContent.third = $scope.navList[2];
