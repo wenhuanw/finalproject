@@ -19,11 +19,6 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, 
 			url: '/list',
 			templateUrl: 'partials/list.html',
 			controller: 'ListCtrl'
-		})		
-		.state('beware', {
-			url: '/beware',
-			templateUrl: 'partials/beware.html',
-			controller: 'bewareCtrl'
 		})
 		.state('tips', {
 			url: '/safety_tips',

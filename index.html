@@ -49,14 +49,14 @@
               <li ng-show="isActive('/home')"><a class="navBar" aria-label="goes to home" ui-sref=".home">Home</a></li>
               <li ng-show="isActive('/alert')"><a class="navBar" aria-label="goes to Crime Level" ui-sref=".alert">Crime Level</a></li>
               <li ng-show="isActive('/list')"><a class="navBar" aria-label="goes to Recent Crime" ui-sref=".list">Recent Crime</a></li>
-              <li ng-show="isActive('/beware')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".">Safety Tips</a></li>
+              <li ng-show="isActive('/tips')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".tips">Safety Tips</a></li>
           </ul>
       </nav>
       <!-- main is here -->
       <!-- partials to be added -->
       <div ui-view class="col-xs-9" id="injection"></div>
       <!--sidebar commented out until i get it working
-      <div class="container">
+      <div class="container" ng-controller="bewareCtrl">
         <section>
             <!--button to use current location-->
             <!--button to manually enter location-->
