@@ -30,19 +30,59 @@
       <script src="js/leaflet.awesome-markers.min.js"></script>
       <!-- load our own Angular.js -->
       <script src="js/city.js"></script>
+      <script src="js/nav.js"></script>
    </head>
    <body>
       <!-- header -->
-      <nav>
+      <!-- will use if I have time to add animation to the shifting
+      <nav class="container" id="navMenu">
+          <ul class="list-inline navBar" ng-controller='myNav'>
+              <li><a class="navBar" aria-label="goes to {{navContent.first}}" ui-sref=".{{navContent.firstL}}">{{navContent.first}}</a></li>
+              <li><a class="navBar" aria-label="goes to {{navContent.second}}" ui-sref=".{{navContent.secondL}}">{{navContent.second}}</a></li>
+              <li><a class="navBar" aria-label="goes to {{navContent.third}}" ui-sref=".{{navContent.thirdL}}">{{navContent.third}}</a></li>
+          </ul>
+      </nav> -->
+      <nav class="container" id="navMenu" ng-controller='myNav'>
+          <ul class="list-inline navBar">
+              <li ng-show="isActive('/home')"><a class="navBar" aria-label="goes to home" ui-sref=".home">Home</a></li>
+              <li ng-show="isActive('/')"><a class="navBar" aria-label="goes to Crime Level" ui-sref=".">Crime Level</a></li>
+              <li ng-show="isActive('/list')"><a class="navBar" aria-label="goes to Recent Crime" ui-sref=".list">Recent Crime</a></li>
+              <li ng-show="isActive('/')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".">Safety Tips</a></li>
+          </ul>
       </nav>
-      <!-- header -->
-      <header>
-      </header>
       <!-- main is here -->
       <!-- partials to be added -->
-      <div ui-view></div>
+      <div ui-view class="col-xs-9" id="injection"></div>
       <!-- footer -->
       <footer>
+          <div class="col-xs-3">
+              <ul>
+                  Hello!
+                  <li>Contact Us</li>
+                  <li>Portfolio</li>
+              </ul>
+          </div>
+          <div class="col-xs-3">
+              <ul>
+                  Hello!
+                  <li>Contact Us</li>
+                  <li>Portfolio</li>
+              </ul>
+          </div>
+          <div class="col-xs-3">
+              <ul>
+                  Hello!
+                  <li>Contact Us</li>
+                  <li>Portfolio</li>
+              </ul>
+          </div>
+          <div class="col-xs-3">
+              <ul>
+                  Hello!
+                  <li>Contact Us</li>
+                  <li>Portfolio</li>
+              </ul>
+          </div>
       </footer>
    </body>
 </html>
