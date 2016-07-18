@@ -52,6 +52,14 @@
               <li ng-show="isActive('/safety_tips')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".tips">Safety Tips</a></li>
           </ul>
       </nav>
+      <!-- check crime types -->
+      <form role="form" class="container" ng-controller="TypeCtrl" id="checkBox" class="col-xs-9">
+          <label ng-repeat="item in crimeTypes track by $index">
+              <input type="checkbox" value="{{item.value}}" ng-click="toggle($index)">
+                {{item.type}}
+              </input>
+          </label>
+      </form>
       <!-- main is here -->
       <!-- partials to be added -->
       <div ui-view class="col-xs-9" id="injection"></div>

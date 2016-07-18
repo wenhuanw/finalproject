@@ -428,6 +428,27 @@ myApp.controller('ListCtrl', ['$scope', '$http', 'Scopes',function ($scope, $htt
 			console.log($scope.data);
 	});
 }]);
+
+myApp.controller('TypeCtrl', ['$scope', function($scope) {
+	$scope.crimeTypes = [
+		{'type':'assult', 'value':false},
+		{'type':'hazard', 'value':false},
+		{'type':'burglary', 'value':false},
+		{'type':'noise', 'value':false},
+		{'type':'theft', 'value':false},
+		{'type':'robbery', 'value':false},
+		{'type':'traffic', 'value':false}];
+		
+	$scope.toggle = function(index) {
+		console.log(index);
+		$scope.crimeTypes[index].value = !$scope.crimeTypes[index].value;
+		console.log($scope.crimeTypes);
+	}
+}]);
+
+
+
+
 /* commenting out until i have it working
 myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
 	//refresh current location 
@@ -448,6 +469,7 @@ myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
 	        var json = response.data.data;
 			var arr = [];
 	        for (var i = 0; i < json.length; i++) {
+				if(checkDist())
 	            arr.push({
 	                id: json[i][8],
 	                offense_number: json[i][9],
@@ -456,7 +478,6 @@ myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
 	                incident_time: new Date(json[i][15]),
 	                latitude: json[i][21],
 	                longitude: json[i][20]
-					
 	            });
 	        }
 	});
