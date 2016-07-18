@@ -24,11 +24,17 @@
       <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
       <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
       <!-- load our own Angular.js -->
+      <script src="js/nav.js"></script>
       <script src="js/city.js"></script>
    </head>
    <body>
       <!-- header -->
       <nav>
+          <ul class="list-inline navBar" ng-controller='myNav'>
+              <li><a class="navBar" aria-label="goes to {{navContent.first}} Level Bar" ui-sref="{{navContent.first.makeLink()}}">{{navContent.first}}</a></li>
+              <li><a class="navBar" aria-label="goes to {{navContent.second}} Level Bar" ui-sref="{{navContent.second.makeLink()}}">{{navContent.second}}</a></li>
+              <li><a class="navBar" aria-label="goes to {{navContent.third}} Level Bar" ui-sref="{{navContent.third.makeLink()}}">{{navContent.third}}</a></li>
+          </ul>
       </nav>
       <!-- header -->
       <header>
