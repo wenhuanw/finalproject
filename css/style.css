@@ -1,7 +1,6 @@
 #map {
 	height: 700px;
 	margin-top: 5%;
-	margin-left: 20%;
 }
 #injection {
 	margin-top: 5%;
@@ -43,6 +42,7 @@ a.navBar {
 ul.navBar>li>a:hover {
 	color: black; 
 	background-color: darkgray; 
+	text-decoration: none;
 }
 html,body {
 	min-height: 100%;
@@ -55,14 +55,11 @@ body{
 footer {
 	background-color: lightgrey;
 	position: fixed;
-	height: 30px;
+	height: 40px;
 	bottom: 0;
 	text-align: center;
 	width: 100%;
 	box-shadow: 1px 2px 3px black;
-}
-footer>height {
-	height: 30px;
 }
 footer>div>ul {
 	font-size: 15px;
@@ -73,8 +70,54 @@ footer>div>ul>li:hover {
 	color: black; 
 	background-color: darkgray; 
 }
+<<<<<<< HEAD
 
 section#header {
 	text-align: center;
 	margin-left: 180px;
 }
+=======
+footer>div>ul>li>ul {
+    background: none repeat scroll 0 0 #F8F8F8;
+    border: 5px solid #DFDFDF;
+    color: #717171;
+    font-size: 13px;
+    height: 30px;
+    letter-spacing: 1px;
+    line-height: 30px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    top: -80px;
+    left:-30px;
+    display:none;
+    padding:0 20px;
+}
+footer>div>ul>li:hover>ul {
+	top: 50px;
+	visibility: visible;
+	opacity: 3;
+}
+footer>div>ul>li>ul:before {
+	content: '';
+	border: 0;
+	border-color: transparent;
+	position: absolute;
+}
+footer>div>ul>li>ul:after{
+    content:'';
+    position:absolute;
+    bottom:-10px;
+    width:10px;
+    height:10px;
+    border-bottom:5px solid #dfdfdf;
+    border-right:5px solid #dfdfdf;
+    background:#f8f8f8;
+    left:50%;
+    margin-left:-5px;
+    -moz-transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+>>>>>>> f69a1df748bfd1c32f3ee638feb165a8ca0a2e12
