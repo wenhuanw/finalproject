@@ -445,6 +445,7 @@ myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
 	        var json = response.data.data;
 			var arr = [];
 	        for (var i = 0; i < json.length; i++) {
+				if(checkDist())
 	            arr.push({
 	                id: json[i][8],
 	                offense_number: json[i][9],
@@ -453,7 +454,6 @@ myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
 	                incident_time: new Date(json[i][15]),
 	                latitude: json[i][21],
 	                longitude: json[i][20]
-					
 	            });
 	        }
 	});

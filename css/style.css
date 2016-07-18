@@ -8,6 +8,8 @@
 	overflow: auto;
 	margin-bottom: 5%;
 	min-height: 90%;
+	position: fixed;
+	display: block;
 }
 #navMenu {
 	z-index: 999;
