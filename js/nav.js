@@ -1,10 +1,10 @@
 'use strict'
 var nav = angular.module('CityApp',[]);
 nav.controller('myNav',['$scope', '$window', '$location', function($scope, $window, $location){
-    //creates a list of that we will be navigating
+    //initalizes the page specific nav bar on load
     var initNav = function(){
+        //creates a list of that we will be navigating
         $scope.navList = ["Home", "Crime Level", "Recent Crime", "Safety Tips"];
-        var currentUrl = $location.url();
         var removeIndex = 0;
         if(window.location.href.indexOf("#/home") != -1)
             removeIndex = 0;
