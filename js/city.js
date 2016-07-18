@@ -142,7 +142,7 @@ myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
 	                offense_number: json[i][9],
 	                offense: json[i][12],
 	                street: json[i][16],
-	                incident_time: json[i][15],
+	                incident_time: new Date(json[i][15]),
 	                latitude: json[i][21],
 	                longitude: json[i][20]
 	            });
