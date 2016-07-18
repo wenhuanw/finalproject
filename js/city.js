@@ -1,124 +1,390 @@
 'use strict';
 
-var myApp = angular.module('CityApp', ['ui.router']);
+var myApp = angular.module('CityApp', ['ui.router', 'leaflet-directive']);
 
-myApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
             url: '/home',
             templateUrl: 'partials/home.html',
-            controller: 'MapCtrl'
+            controller: '$scope.mapCtrl'
+        })
+		.state('alert', {
+            url: '/alert',
+            templateUrl: 'partials/alert.html',
+            controller: 'AlertCtrl'
         })
 
     $urlRouterProvider.otherwise('/home');
 }]);
 
-myApp.controller('MapCtrl', ['$scope', '$http', function($scope, $http) {
+myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
     // URL of our API
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
 
-    $scope.load = function() {
-    var map = drawMap();
+    $scope.load = function () {
+		var map = drawmap();
 
 
-	    function drawMap() {
-	        map = L.map('map').setView([47.6553, -122.3035], 13);
-	        var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
-	        layer.addTo(map);
-	        return map;
-	    }
+		function drawmap() {
+			$scope.map = L.$scope.map('map').setView([47.6553, -122.3035], 13);
+			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+			layer.addTo(map);
+			return map;
+		}
 
-	    console.log("Map Drawn");
-	    var json;
+		console.log("map Drawn");
+		var json;
 
-	    var arr = [];
-	    $http.get(url).then(function(response) {
-	        var data = response.data;
-	        $scope.data = data;
-	        json = $scope.data.data;
-	        //console.log(json[0]);
-	        for (var i = 0; i < json.length; i++) {
-	            arr.push({
-	                id: json[i][8],
-	                offense_number: json[i][9],
-	                offense: json[i][12],
-	                street: json[i][16],
-	                incident_time: json[i][15],
-	                latitude: json[i][21],
-	                longitude: json[i][20]
-	            });
-	        }
-	        console.log(arr);
+		var arr = [];
+		$http.get(url).then(function (response) {
+			var data = response.data;
+			$scope.data = data;
+			json = $scope.data.data;
+			//console.log(json[0]);
+			for (var i = 0; i < json.length; i++) {
+				arr.push({
+					id: json[i][8],
+					offense_number: json[i][9],
+					offense: json[i][12],
+					street: json[i][16],
+					incident_time: json[i][15],
+					latitude: json[i][21],
+					longitude: json[i][20]
+				});
+			}
+			//console.log(arr);
 
-	        // arr represents our data
+			// arr represents our data
 
-	        customBuild(arr);
+			customBuild(arr);
 
-	        function customBuild(arr) {
-	            var assault = new L.LayerGroup([]);
-	            var hazard = new L.LayerGroup([]);
-	            var burglary = new L.LayerGroup([]);
-	            var noise = new L.LayerGroup([]);
-	            var theft = new L.LayerGroup([]);
-	            var suspicious_person = new L.LayerGroup([]);
-	            var liquor_violation = new L.LayerGroup([]);
-	            var robbery = new L.LayerGroup([]);
-	            var traffic = new L.LayerGroup([]);
-	            var other = new L.LayerGroup([]);
-	            var allLayers = [assault, hazard, burglary, noise, theft, suspicious_person, liquor_violation, robbery, traffic, other];
-	            for (var i = 0; i < arr.length; i++) {
-	                var curr = arr[i];
-	                var lat = curr["latitude"];
-	                var lng = curr["longitude"];
-	                var street = curr["street"];
-	                var time = curr["incident_time"];
-	                var offense_number = curr["offense_number"];
-	                var offense = curr["offense"];
+			function customBuild(arr) {
+				var assault = new L.LayerGroup([]);
+				var hazard = new L.LayerGroup([]);
+				var burglary = new L.LayerGroup([]);
+				var noise = new L.LayerGroup([]);
+				var theft = new L.LayerGroup([]);
+				var suspicious_person = new L.LayerGroup([]);
+				var liquor_violation = new L.LayerGroup([]);
+				var robbery = new L.LayerGroup([]);
+				var traffic = new L.LayerGroup([]);
+				var other = new L.LayerGroup([]);
+				var allLayers = [assault, hazard, burglary, noise, theft, suspicious_person, liquor_violation, robbery, traffic, other];
+				for (var i = 0; i < arr.length; i++) {
+					var curr = arr[i];
+					var lat = curr["latitude"];
+					var lng = curr["longitude"];
+					var street = curr["street"];
+					var time = curr["incident_time"];
+					var offense_number = curr["offense_number"];
+					var offense = curr["offense"];
 
-	                var circle = new L.circleMarker([lat, lng], {
-	                    color: 'red'
-	                })
-	                if (offense.includes("ASSAULT")) {
-	                    circle.addTo(assault);
-	                } else if (offense.includes("HAZARDS")) {
-	                    circle.addTo(hazard);
-	                } else if (offense.includes("BURGLARY")) {
-	                    circle.addTo(burglary);
-	                } else if (offense.includes("NOISE")) {
-	                    circle.addTo(noise);
-	                } else if (offense.includes("THEFT")) {
-	                    circle.addTo(theft);
-	                } else if (offense.includes("SUSPICIOUS")) {
-	                    circle.addTo(suspicious_person);
-	                } else if (offense.includes("LIQUOR")) {
-	                    circle.addTo(liquor_violation);
-	                } else if (offense.includes("ROBBERY")) {
-	                    circle.addTo(robbery);
-	                } else if (offense.includes("TRAFFIC")) {
-	                    circle.addTo(traffic);
-	                } else {
-	                    circle.addTo(other);
-	                }
-	                circle.bindPopup(offense + " at " + street + " at " + time);
-	            }
+					var circle = new L.circleMarker([lat, lng], {
+						color: 'red'
+					})
 
-	            for (var i = 0; i < allLayers.length; i++) {
-	                map.addLayer(allLayers[i]);
-	            }
+					if (offense.includes("ASSAULT")) {
+						circle.addTo(assault);
+					} else if (offense.includes("HAZARDS")) {
+						circle.addTo(hazard);
+					} else if (offense.includes("BURGLARY")) {
+						circle.addTo(burglary);
+					} else if (offense.includes("NOISE")) {
+						circle.addTo(noise);
+					} else if (offense.includes("THEFT")) {
+						circle.addTo(theft);
+					} else if (offense.includes("SUSPICIOUS")) {
+						circle.addTo(suspicious_person);
+					} else if (offense.includes("LIQUOR")) {
+						circle.addTo(liquor_violation);
+					} else if (offense.includes("ROBBERY")) {
+						circle.addTo(robbery);
+					} else if (offense.includes("TRAFFIC")) {
+						circle.addTo(traffic);
+					} else {
+						circle.addTo(other);
+					}
+					circle.bindPopup(offense + " at " + street + " at " + time);
+				}
 
-	            L.control.layers(null, {
-	                "Assualt": assault,
-	                "Hazard": hazard,
-	                "Burglary": burglary,
-	                "Noise": noise,
-	                "Theft": theft,
-	                "Suspicious Person": suspicious_person,
-	                "Liquor Violation": liquor_violation,
-	                "Robbery": robbery,
-	                "Traffic": traffic,
-	                "Other": other
-	            }).addTo(map);
-	        }
-	    });
+				for (var i = 0; i < allLayers.length; i++) {
+					map.addLayer(allLayers[i]);
+				}
+
+				$scope.lcontrol = L.control.layers(null, {
+					"Assualt": assault,
+					"Hazard": hazard,
+					"Burglary": burglary,
+					"Noise": noise,
+					"Theft": theft,
+					"Suspicious Person": suspicious_person,
+					"Liquor Violation": liquor_violation,
+					"Robbery": robbery,
+					"Traffic": traffic,
+					"Other": other
+				}).addTo(map);
+			}
+		});
     }
+}]);
+
+
+
+myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
+	var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
+
+	// get the hour data of the happened incident 
+	$scope.getHour = function (s) {
+		//console.log("time is: " +s);
+		var sHour = s.slice(s.length - 8, s.length - 6);
+		//console.log("sHour is: " +sHour);
+		var incidentHour = parseInt(sHour);
+		return incidentHour;
+
+	}
+
+	// get the date data of the happened incident 
+	$scope.getDay = function (s) {
+		//console.log("time is: "+s);
+		var sDay = s.slice(s.length - 11, s.length - 9);
+		//console.log("day is: " + sDay);
+		var incidentDay = parseInt(sDay);
+		return incidentDay;
+	}
+
+
+	// create crime map within one hour before
+	$scope.loadRecent = function () {
+		//$scope.lcontrol = {};
+
+		// bug 
+		$scope.map.eachLayer(function (layer) {
+			$scope.map.removeLayer(layer);
+		});
+
+		var d = new Date();
+		var hour = d.getHours();
+		var day = d.getDate();
+		// get user's location and add the marker
+		var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+		layer.addTo($scope.map);
+		if ('geolocation' in navigator) {
+			navigator.geolocation.getCurrentPosition(success);
+		}
+		function success(pos) {
+			L.marker([pos.coords.latitude, pos.coords.longitude]).addTo($scope.map);
+		}
+
+		// get the API data and store in arr variable
+		var json;
+		var arr = [];
+		$http.get(url).then(function (response) {
+			var data = response.data;
+			$scope.data = data;
+			json = $scope.data.data;
+			//console.log(json[0]);
+			for (var i = 0; i < json.length; i++) {
+				arr.push({
+					id: json[i][8],
+					offense_number: json[i][9],
+					offense: json[i][12],
+					street: json[i][16],
+					incident_time: json[i][15],
+					latitude: json[i][21],
+					longitude: json[i][20]
+				});
+			}
+			// function used to add markers of each crime, by creating a layergroup for each typee of markers(crimes)
+			customBuild(arr);
+			function customBuild(arr) {
+				$scope.assault = new L.LayerGroup([]);
+				$scope.hazard = new L.LayerGroup([]);
+				$scope.burglary = new L.LayerGroup([]);
+				$scope.noise = new L.LayerGroup([]);
+				$scope.theft = new L.LayerGroup([]);
+				$scope.suspicious_person = new L.LayerGroup([]);
+				$scope.liquor_violation = new L.LayerGroup([]);
+				$scope.robbery = new L.LayerGroup([]);
+				$scope.traffic = new L.LayerGroup([]);
+				$scope.other = new L.LayerGroup([]);
+				$scope.allLayers = [$scope.assault, $scope.hazard, $scope.burglary, $scope.noise, $scope.theft, $scope.suspicious_person, $scope.liquor_violation, $scope.robbery, $scope.traffic, $scope.other];
+				for (var i = 0; i < arr.length; i++) {
+					var curr = arr[i];
+					var lat = curr["latitude"];
+					var lng = curr["longitude"];
+					var street = curr["street"];
+					var time = curr["incident_time"];
+					var offense_number = curr["offense_number"];
+					var offense = curr["offense"];
+					var hourHappen = $scope.getHour(time);
+					var dayHappen = $scope.getDay(time);
+					// filter out the crime happened earlier
+					if (dayHappen == day && (hour - hourHappen == -23 || (hour - hourHappen >= 0 && hour - hourHappen <= 1))) {
+						var circle = new L.circleMarker([lat, lng], {
+							color: 'red'
+						})
+
+						if (offense.includes("ASSAULT")) {
+							circle.addTo($scope.assault);
+						} else if (offense.includes("HAZARDS")) {
+							circle.addTo($scope.hazard);
+						} else if (offense.includes("BURGLARY")) {
+							circle.addTo($scope.burglary);
+						} else if (offense.includes("NOISE")) {
+							circle.addTo($scope.noise);
+						} else if (offense.includes("THEFT")) {
+							circle.addTo($scope.theft);
+						} else if (offense.includes("SUSPICIOUS")) {
+							circle.addTo($scope.suspicious_person);
+						} else if (offense.includes("LIQUOR")) {
+							circle.addTo($scope.liquor_violation);
+						} else if (offense.includes("ROBBERY")) {
+							circle.addTo($scope.robbery);
+						} else if (offense.includes("TRAFFIC")) {
+							circle.addTo($scope.traffic);
+						} else {
+							circle.addTo($scope.other);
+						}
+						circle.bindPopup(offense + " at " + street + " at " + time);
+					}
+				}
+
+				for (var i = 0; i < $scope.allLayers.length; i++) {
+					$scope.map.addLayer($scope.allLayers[i]);
+				}
+
+				$scope.lcontrol = L.control.layers(null, {
+					"Assualt": $scope.assault,
+					"Hazard": $scope.hazard,
+					"Burglary": $scope.burglary,
+					"Noise": $scope.noise,
+					"Theft": $scope.theft,
+					"Suspicious Person": $scope.suspicious_person,
+					"Liquor Violation": $scope.liquor_violation,
+					"Robbery": $scope.robbery,
+					"Traffic": $scope.traffic,
+					"Other": $scope.other
+				})
+				//console.log($scope.lcontrol);
+				$scope.lcontrol.addTo($scope.map);
+			}
+
+		});
+
+    };
+
+
+
+	// The original crime map with focus on user's location
+	$scope.loadRaw = function () {
+		$scope.map = drawmap();
+		$scope.raw = true;
+		$scope.recent = false;
+
+		function drawmap() {
+			// get the user location
+			var map = L.map('map').locate({ setView: true, maxZoom: 15 });
+            //setView([47.6553, -122.3035], 13);
+			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+			layer.addTo(map);
+			return map;
+		}
+
+
+		$scope.map.on('locationfound', onLocationFound);
+		function onLocationFound(e) {
+			// e.heading will contain the user's heading (in degrees) if it's available, and if not it will be NaN. This would allow you to point a marker in the same direction the user is pointed. 
+			L.marker(e.latlng).addTo($scope.map);
+		}
+		// get the API data and store in arr variable
+		var json;
+		var arr = [];
+		$http.get(url).then(function (response) {
+			var data = response.data;
+			$scope.data = data;
+			json = $scope.data.data;
+			for (var i = 0; i < json.length; i++) {
+				arr.push({
+					id: json[i][8],
+					offense_number: json[i][9],
+					offense: json[i][12],
+					street: json[i][16],
+					incident_time: json[i][15],
+					latitude: json[i][21],
+					longitude: json[i][20]
+				});
+			}
+			// function used to add markers, by creating a layergroup for each typee of markers
+			customBuild(arr);
+			function customBuild(arr) {
+				$scope.assault = new L.LayerGroup([]);
+				$scope.hazard = new L.LayerGroup([]);
+				$scope.burglary = new L.LayerGroup([]);
+				$scope.noise = new L.LayerGroup([]);
+				$scope.theft = new L.LayerGroup([]);
+				$scope.suspicious_person = new L.LayerGroup([]);
+				$scope.liquor_violation = new L.LayerGroup([]);
+				$scope.robbery = new L.LayerGroup([]);
+				$scope.traffic = new L.LayerGroup([]);
+				$scope.other = new L.LayerGroup([]);
+				$scope.allLayers = [$scope.assault, $scope.hazard, $scope.burglary, $scope.noise, $scope.theft, $scope.suspicious_person, $scope.liquor_violation, $scope.robbery, $scope.traffic, $scope.other];
+				for (var i = 0; i < arr.length; i++) {
+					var curr = arr[i];
+					var lat = curr["latitude"];
+					var lng = curr["longitude"];
+					var street = curr["street"];
+					var time = curr["incident_time"];
+					var offense_number = curr["offense_number"];
+					var offense = curr["offense"];
+
+					var circle = new L.circleMarker([lat, lng], {
+						color: 'red'
+					})
+
+					if (offense.includes("ASSAULT")) {
+						circle.addTo($scope.assault);
+					} else if (offense.includes("HAZARDS")) {
+						circle.addTo($scope.hazard);
+					} else if (offense.includes("BURGLARY")) {
+						circle.addTo($scope.burglary);
+					} else if (offense.includes("NOISE")) {
+						circle.addTo($scope.noise);
+					} else if (offense.includes("THEFT")) {
+						circle.addTo($scope.theft);
+					} else if (offense.includes("SUSPICIOUS")) {
+						circle.addTo($scope.suspicious_person);
+					} else if (offense.includes("LIQUOR")) {
+						circle.addTo($scope.liquor_violation);
+					} else if (offense.includes("ROBBERY")) {
+						circle.addTo($scope.robbery);
+					} else if (offense.includes("TRAFFIC")) {
+						circle.addTo($scope.traffic);
+					} else {
+						circle.addTo($scope.other);
+					}
+					circle.bindPopup(offense + " at " + street + " at " + time);
+				}
+
+				for (var i = 0; i < $scope.allLayers.length; i++) {
+					$scope.map.addLayer($scope.allLayers[i]);
+				}
+
+				$scope.lcontrol = L.control.layers(null, {
+					"Assualt": $scope.assault,
+					"Hazard": $scope.hazard,
+					"Burglary": $scope.burglary,
+					"Noise": $scope.noise,
+					"Theft": $scope.theft,
+					"Suspicious Person": $scope.suspicious_person,
+					"Liquor Violation": $scope.liquor_violation,
+					"Robbery": $scope.robbery,
+					"Traffic": $scope.traffic,
+					"Other": $scope.other
+				});
+				$scope.lcontrol.addTo($scope.map);
+			}
+		});
+	};
+
 }]);
