@@ -9,6 +9,11 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
             templateUrl: 'partials/home.html',
             controller: 'MapCtrl'
         })
+		.state('list', {
+			url: '/list',
+			templateUrl: 'partials/list.html',
+			controller: 'ListCtrl'
+		})
 
     $urlRouterProvider.otherwise('/home');
 }]);
@@ -122,3 +127,28 @@ myApp.controller('MapCtrl', ['$scope', '$http', function($scope, $http) {
 	    });
     }
 }]);
+
+myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
+	// URL of our API
+    var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
+	// load data
+	$http.get(url).then(function(response) {
+	        var data = response.data;
+	        var json = response.data.data;
+			var arr = [];
+	        for (var i = 0; i < json.length; i++) {
+	            arr.push({
+	                id: json[i][8],
+	                offense_number: json[i][9],
+	                offense: json[i][12],
+	                street: json[i][16],
+	                incident_time: json[i][15],
+	                latitude: json[i][21],
+	                longitude: json[i][20]
+	            });
+	        }
+	        console.log('list.html data:');
+			$scope.data = arr;
+			console.log($scope.data);
+	});
+}])

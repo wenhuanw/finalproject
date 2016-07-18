@@ -1,0 +1,21 @@
+<div class="container">
+    <form role="form" class="form-inline">
+        <label for="searchTerm"><i class="fa fa-search" aria-label="Search"></i></label>
+        <input type="text" name="search" id="searchTerm" placeholder="Enter a search term..." ng-model="listSearchTerm">
+    </form>
+
+    <table class="table">
+        <tr>
+            <th><a href="">Offense Number</a></th>
+            <th><a href="">Offense</a></th>
+            <th><a href="">Street</a></th>
+            <th><a href="">Time</a></th>
+        </tr>
+        <tr ng-repeat="item in data | filter: listSearchTerm">
+            <td>{{item.offense_number}}</td>
+            <td>{{item.offense}}</td>
+            <td>{{item.street}}</td>
+            <td>{{item.incident_time}}</td>
+        </tr>
+    </table>
+</div>
