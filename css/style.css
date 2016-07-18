@@ -3,35 +3,38 @@
 	margin-top: 10%;
 	width: 120%;	
 }
-#navMenu*{
+#navMenu {
 	z-index: 999;
 	height: 50px; 
 	background-color: #f36f25; 
 	box-shadow: 1px 2px 3px black;
+	width: 100%;
+	position: fixed
 }
-#navMenu>ul{
+ul.navBar{
 	margin: 0;
 	padding: 0;
 	text-align: center;
+    font-size: 16px;
 }
-#navMenu>ul>li{
+ul.navBar>li{
 	margin: 0;
 	padding: 0;
     display: inline-block;
-    margin-left: 15px;
+    margin-left: 3px;
+	margin-right: 3px;
     position: relative;
 }
-#navMenu>ul>li>a{ 
+a.navBar{ 
 	margin: 0; 
 	padding: 0;
-}
-#navMenu > ul > li > a {
     color: white;
     font-size: 15px;
     line-height: 50px;
     padding: 16px;
+	text-align: center;
 }
-#navMenu>ul>li>a:hover{
-	color: orange; 
+ul.navBar>li>a:hover{
+	color: black; 
 	background-color: darkgray; 
 }
