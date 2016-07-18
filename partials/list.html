@@ -11,11 +11,11 @@
             <th><a href="">Street</a></th>
             <th><a href="">Time</a></th>
         </tr>
-        <tr ng-repeat="item in data | filter: listSearchTerm">
+        <tr ng-repeat="item in data | filter: listSearchTerm | orderBy: '-incident_time'">
             <td>{{item.offense_number}}</td>
             <td>{{item.offense}}</td>
             <td>{{item.street}}</td>
-            <td>{{item.incident_time}}</td>
+            <td>{{item.incident_time | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
         </tr>
     </table>
 </div>
