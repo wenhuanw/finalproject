@@ -19,6 +19,11 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, 
 			url: '/list',
 			templateUrl: 'partials/list.html',
 			controller: 'ListCtrl'
+		})		
+		.state('beware', {
+			url: '/beware',
+			templateUrl: 'partials/beware.html',
+			controller: 'bewareCtrl'
 		})
 
     $urlRouterProvider.otherwise('/home');
@@ -397,7 +402,7 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 
 
 
-myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('ListCtrl', ['$scope', '$http', 'Scopes',function ($scope, $http) {
 	// URL of our API
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
 	// load data
@@ -421,4 +426,52 @@ myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
 			console.log($scope.data);
 	});
 }]);
+/* commenting out until i have it working
+myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
+	//refresh current location 
+	function getGeo() {
+		//gets current location
+		if(navigator.geolocation){
+			$scope.hasGeo = true;
+			$scope.lat = position.coords.latitude;
+			$scope.long = position.coords.longitude;
+		} else {
+			$scope.hasGeo = false;
+			return output.innerHTML = "<p> Unable to find current location </p>";
+		}
+	}
+	var pos = document.get
+	$http.get(url).then(function(response) {
+	        var data = response.data;
+	        var json = response.data.data;
+			var arr = [];
+	        for (var i = 0; i < json.length; i++) {
+	            arr.push({
+	                id: json[i][8],
+	                offense_number: json[i][9],
+	                offense: json[i][12],
+	                street: json[i][16],
+	                incident_time: new Date(json[i][15]),
+	                latitude: json[i][21],
+	                longitude: json[i][20]
+					
+	            });
+	        }
+	});
+
+	checkDist function(baseLat,baseLong,givenLat,givenLong){
+		var earthRad = 6371e3; 
+		var baseLatR = baseLat.toRadians();
+		var givenLatR = givenLat.toRadians();
+		var diffLatR = (givenLat-baseLat).toRadians();
+		var diffLongR = (givenLong-baseLong).toRadians();
+
+		var a = Math.sin(diffLatR/2) * Math.sin(diffLatR/2) +
+				Math.cos(baseLatR) * Math.cos(givenLatR) *
+				Math.sin(diffLongR/2) * Math.sin(diffLongR/2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+		var d = R * c;
+	}
+}]);*/
 
