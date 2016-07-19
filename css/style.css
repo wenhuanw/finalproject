@@ -15,9 +15,6 @@ html,body {
 	height: 100%;
 	margin: 0;
 }
-body{
-  position: relative;
-}
 
 .footer {
   position: fixed;
@@ -50,4 +47,10 @@ body{
 
 .nav-text:hover, .nav-text:focus {
 	color: white;
+}
+
+/* main */
+main {
+	padding-top: 4em;
+	padding-bottom: 4em;
 }
