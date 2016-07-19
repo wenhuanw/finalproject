@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('CityApp', ['ui.router','navApp']);
+var myApp = angular.module('CityApp', ['ui.router']);
 
 
 myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -89,9 +89,31 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 	                var time = curr["incident_time"];
 	                var offense_number = curr["offense_number"];
 	                var offense = curr["offense"];
+	                var currColor;
+	                if (offense.includes("ASSAULT")) {
+	                    currColor = "blue";
+	                } else if (offense.includes("HAZARDS")) {
+	                    currColor = "red";
+	                } else if (offense.includes("BURGLARY")) {
+	                    currColor = "yellow";
+	                } else if (offense.includes("NOISE")) {
+	                    currColor = "grey";
+	                } else if (offense.includes("THEFT")) {
+	                    currColor = "lightblue";
+	                } else if (offense.includes("SUSPICIOUS")) {
+	                    currColor = "darkred";
+	                } else if (offense.includes("LIQUOR")) {
+	                    currColor = "lightred";
+	                } else if (offense.includes("ROBBERY")) {
+	                    currColor = "pink";
+	                } else if (offense.includes("TRAFFIC")) {
+	                    currColor = "cyan"
+	                } else {
+	                    currColor = "black";
+	                }	               
 
 	                var circle = new L.circleMarker([lat, lng], {
-	                    color: 'red'
+	                    color: currColor
 	                })
 	                if (offense.includes("ASSAULT")) {
 	                    circle.addTo(assault);
@@ -264,23 +286,9 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 				for (var i = 0; i < $scope.allLayers.length; i++) {
 					$scope.map.addLayer($scope.allLayers[i]);
 				}
-
-
-				$scope.lcontrol = L.control.layers(null, {
-					"Assualt": $scope.assault,
-					"Hazard": $scope.hazard,
-					"Burglary": $scope.burglary,
-					"Noise": $scope.noise,
-					"Theft": $scope.theft,
-					"Suspicious Person": $scope.suspicious_person,
-					"Liquor Violation": $scope.liquor_violation,
-					"Robbery": $scope.robbery,
-					"Traffic": $scope.traffic,
-					"Other": $scope.other
-				})
 				//console.log('$scope.lcontrol:');
 				//console.log($scope.lcontrol);
-				$scope.lcontrol.addTo($scope.map);
+				//$scope.lcontrol.addTo($scope.map);
 			}
 
 		});
