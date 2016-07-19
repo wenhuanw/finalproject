@@ -35,6 +35,16 @@
       <script src="js/nav.js"></script>
    </head>
    <body>
+       <!-- Navigation -->
+       <nav role="navigation" id="navigation" class="container">
+           <ul class="list-inline">
+               <li><a ui-sref='home'>Home</a></li>
+               <li><a ui-sref='alert'>Crimes Nearby</a></li>
+               <li><a ui-sref='list'>Recent Crime</a></li>
+               <li><a ui-sref='tips'>Safety Tips</a></li>
+           </ul>
+       </nav>
+       <!-- main -->
       <div ui-view></div>
    </body>
 
