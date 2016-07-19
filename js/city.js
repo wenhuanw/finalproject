@@ -405,7 +405,8 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 
 myApp.controller('ListCtrl', ['$scope', '$http',function ($scope, $http) {
 	// URL of our API
-    var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
+    var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
+    console.log(url);
 	// load data
 	$http.get(url).then(function(response) {
 	        var data = response.data;
