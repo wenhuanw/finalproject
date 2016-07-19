@@ -403,8 +403,7 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 
-
-myApp.controller('ListCtrl', ['$scope', '$http', 'Scopes',function ($scope, $http) {
+myApp.controller('ListCtrl', ['$scope', '$http',function ($scope, $http) {
 	// URL of our API
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
 	// load data
