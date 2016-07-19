@@ -1,11 +1,10 @@
 #map {
-	height: 800px;
-	margin-top: 5%;
-	width: 120%;	
+	height: 700px;
+	margin-top: 5%;	
 }
 #injection {
 	margin-top: 5%;
-	overflow: auto;
+	
 	margin-bottom: 5%;
 	min-height: 90%;
 }
