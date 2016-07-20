@@ -1,9 +1,11 @@
 'use strict';
 
-
+// creating the module for our app and add "ui.router" module to create link each partial to state
 var myApp = angular.module('CityApp', ['ui.router']);
 
-
+// home state: you can see all types of crimes in seattle in one day on the home page as well as the crimes happen within 5 minutes ago nearby to alert you
+// list state: you can see a list of all types crimes in seattle in one day and filter them by time.
+// statistics state: you can see all the crimes from 2009 till now, and check the safety of one location from the history data
 myApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
@@ -25,9 +27,16 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
     $urlRouterProvider.otherwise('/home');
 }]);
 
+
+// mapCtrl for home partial
 myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
+    // API url
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
+
+    // function to create a seattle map, fetch raw data from API and diplay them on the map
     $scope.load = function() {
+
+            // create a seattle map
             $scope.map = drawMap();
 
             function drawMap() {
@@ -36,6 +45,9 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
                 layer.addTo(map);
                 return map;
             }
+
+            // fetch data from API
+            // arr represents our data
             var arr = [];
             var json = {};
             $http.get(url).then(function(response) {
@@ -53,9 +65,10 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
                         longitude: json[i][20]
                     });
                 }
-                // arr represents our data
-                customBuild(arr);
+                
 
+                // display them on the map
+                customBuild(arr);
                 function customBuild(arr) {
                     var assault = new L.LayerGroup([]);
                     var hazard = new L.LayerGroup([]);
@@ -143,33 +156,41 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
                 }
             });
         }
-        // function to get the hour of the crime 
+        
+        
+        // function to get the hour of the crime for loadRecent() function below
     $scope.getHour = function(s) {
             var sHour = s.substr(s.length - 12, 2);
             var incidentHour = parseInt(sHour);
             return incidentHour;
         }
-        // function to get the date of the crime
+        // function to get the date of the crime for loadRecent() function below
     $scope.getDay = function(s) {
             var sDay = s.substr(s.length - 15, 2);
             var incidentDay = parseInt(sDay);
             return incidentDay;
         }
-        // function to get the minute of the crime
+        // function to get the minute of the crime for loadRecent() function below
     $scope.getMinuete = function(s) {
             var sMinuete = s.substr(s.length - 9, 2);
             var incidentMinuete = parseInt(sMinuete);
             return incidentMinuete;
         }
-        // helper function to transform date
+        // helper function to transform date for loadRecent() function below
     function addZero(i) {
         if (i < 10) {
             i = "0" + i;
         }
         return i;
     }
-    // create crime map within 20 minutes before
+
+
+    // function to create a map based on user location, fetech recent crimes within 20 minutes before, and display them on the map
+    // to fetcth recent data, we first get the current time and calculate the time which is 20 minutes before the current time, then use API's own SQL filter to fectch data within certain time range
+    // There are a lot of helper function, they are all used to get the current time, get the time which is 20 minutes before current time, get the time the crime happen and change them to the same format to make comparison
+    // skip to line 260 to ignore the helper functon
     $scope.loadRecent = function() {
+
         // get the current time with the same format of the crime's time
         $scope.getTimeNow = function() {
                 var d = new Date();
@@ -182,6 +203,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
                 var result = "2016-" + $scope.month + "-" + $scope.day + "T" + $scope.hour + ":" + $scope.minuete + ":" + $scope.second + "." + $scope.millionSecond;
                 return result;
             }
+
             // function to get the day when going back 20 minuetes
         $scope.getbackDay = function() {
                 // if we need to go back a day
@@ -209,6 +231,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
                     return $scope.day;
                 }
             }
+
             // function to get the hour when going back 20 minutes
         $scope.getbackHour = function() {
                 if ($scope.minuete < 20) {
@@ -217,6 +240,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
                     return $scope.hour;
                 }
             }
+
             // function to get the minuete when going back 20 minuetes
         $scope.getbackMinuete = function() {
                 if ($scope.minuete < 20) {
@@ -225,6 +249,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
                     return $scope.minuete - 20;
                 }
             }
+
             // get the time with the same format as crime's time when going back 20 minuetes from current time
         $scope.getTimeHappen = function() {
             var dayHappen = addZero($scope.getbackDay());
@@ -233,36 +258,44 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
             var result = "2016-" + $scope.month + "-" + $scope.day + "T" + hourHappen + ":" + minueteHappen + ":" + $scope.second + "." + $scope.millionSecond;
             return result;
         }
+
+        // get the current time
         $scope.timeNow = $scope.getTimeNow();
+        // get the time which is 20 minutes before current time
         $scope.timeHappen = $scope.getTimeHappen();
+
         // the newAPI url
         var urlNew = "https://data.seattle.gov/resource/pu5n-trf4.json?$where=event_clearance_date between '" + $scope.timeHappen + "' and '" + $scope.timeNow + "' ";
         // the url for test
         var urlTest = "https://data.seattle.gov/resource/pu5n-trf4.json?$where=event_clearance_date between '2016-07-20T07:22:18.825' and '2016-07-20T10:22:18.825' ";
+
         // clear all the layers on map
         if ($scope.map !== undefined) {
             $scope.map.eachLayer(function(layer) {
                 $scope.map.removeLayer(layer);
             });
         }
+
         // remove the controller on map
         if ($scope.lControl != undefined) {
             $scope.map.removeControl($scope.lControl);
         }
+
         // add the tile layer on the map to make a map looks like a map
         var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
         layer.addTo($scope.map);
+
         // get the user's current location and add a marker on it
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(success);
         }
-
         function success(pos) {
             L.marker([pos.coords.latitude, pos.coords.longitude]).addTo($scope.map).bindPopup('I am here').openPopup();
         }
+
         // get the API data and store in arr variable as an array of crime object
         var arr = [];
-        $http.get(urlNew).then(function(response) {
+        $http.get(urlTest).then(function(response) {
             // respons.data is an array of crime object
             arr = response.data;
             // function used to add markers of each crime, by creating a layergroup for each typee of crime
@@ -298,7 +331,6 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function($scope, $h
                     // for those crimes happening within 5 minutes
                     if (diff <= 5) {
                         $scope.crimeNowList.push(curr);
-                        // create custom icon
                         // create special icon for the crime happen within 10 minutes
                         var pulsingIcon = L.icon.pulse({
                             iconSize: [20, 20],
@@ -424,6 +456,12 @@ myApp.controller('ListCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.ordering = '-incident_time';
     // URL of our API
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
+    // hide column to fit device views
+    $scope.xs = false;
+    console.log(window.innerWidth);
+    if (window.innerWidth < 768) {
+        $scope.xs = true;
+    }
     // load data
     $http.get(url).then(function(response) {
         var data = response.data;
@@ -722,6 +760,13 @@ myApp.controller('StatCtrl', ['$scope', '$http', function($scope, $http) {
                 });
             }
         });
+    }
+
+    // hide column to fit device views
+    $scope.xs = false;
+    console.log(window.innerWidth);
+    if (window.innerWidth < 768) {
+        $scope.xs = true;
     }
 }]);
 
