@@ -1,102 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="CityApp">
-   <head>
-      <!-- Metadata -->
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="keywords" content="Seattle-Crime">
-      <meta name="author" content="Aayush Saxena, Hu XiaoBo, PeiFeng Jing, Wenhuan Wei">
-      <title>Seattle Crime</title>
-      <!-- load css link -->
-      <!-- icon to be decided -->
-      <!--<link rel="icon" type="image/png" href="img/pencil.png">-->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel='stylesheet'>
-      <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
-      <link rel="stylesheet" href="css/leaflet.awesome-markers.css">
-      <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" /> -->
-      <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
-      <link rel="stylesheet" href="css/style.css">
-      <!-- load Angular library-->
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
-      <!-- load ui-router module -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
-      <!-- load ui-boostrap module if needed-->
-      <script src='js/ui-bootstrap-tpls-1.3.3.min.js'></script>
-      <!-- load Leflet libraries -->
-      <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
-      <script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
-      
-      <!-- load leaflet-directive -->
-      <script src="http://tombatossals.github.io/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
-      <script src="js/leaflet.awesome-markers.min.js"></script>        
-      <!--Font awesome CDN-->
-      <script src="https://use.fontawesome.com/eb7deced9b.js"></script>
-      <!-- load our own Angular.js -->
-      <script src="js/city.js"></script>
-      <script src="js/nav.js"></script>
-   </head>
-   <body>
-      <!-- header -->
-      <!-- will use if I have time to add animation to the shifting
-      <nav class="container" id="navMenu">
-          <ul class="list-inline navBar" ng-controller='myNav'>
-              <li><a class="navBar" aria-label="goes to {{navContent.first}}" ui-sref=".{{navContent.firstL}}">{{navContent.first}}</a></li>
-              <li><a class="navBar" aria-label="goes to {{navContent.second}}" ui-sref=".{{navContent.secondL}}">{{navContent.second}}</a></li>
-              <li><a class="navBar" aria-label="goes to {{navContent.third}}" ui-sref=".{{navContent.thirdL}}">{{navContent.third}}</a></li>
-          </ul>
-      </nav> -->
-      <nav class="container" id="navMenu" ng-controller='myNav'>
-          <ul class="list-inline navBar">
-              <li ng-show="isActive('/home')"><a class="navBar" aria-label="goes to home" ui-sref=".home">Home</a></li>
-              <li ng-show="isActive('/alert')"><a class="navBar" aria-label="goes to Crime Level" ui-sref=".alert">Crime Level</a></li>
-              <li ng-show="isActive('/list')"><a class="navBar" aria-label="goes to Recent Crime" ui-sref=".list">Recent Crime</a></li>
-              <li ng-show="isActive('/safety_tips')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".tips">Safety Tips</a></li>
-          </ul>
-      </nav>
-      <!-- main is here -->
-      <!-- partials to be added -->
-      <div ui-view class="col-xs-9" id="injection"></div>
-      <!--sidebar commented out until i get it working
-      <div class="container" ng-controller="bewareCtrl">
-        <section>
-            <!--button to use current location-->
-            <!--button to manually enter location-->
-            <!--checks if location entered, else use current-->
-            <!--enters distance range to show crime-->
-            <!--calls crime api to check-->
-            <!--gets list of crimes nearby-->
-            <!--process and show top 3 most common crime in area
-        </section>-->
-</div>
-      <!-- footer -->
-      <footer>
-          <div class="col-xs-3">
-              <ul>
-                  <li><i class="fa fa-facebook-square" aria-hidden="true" aria-label="facebook logo"></i>  Contact us
-                      <ul>
-                          <li><a href="https://www.facebook.com/wenhuan.wei.7"><span>Wenhuan Wei</span></a></li>
-                          <li><a href="https://www.facebook.com/hu.xiaobo"><span>Hu XiaoBo</span></a></li>
-                          <li><a href="https://www.facebook.com/peifengjing"><span>Aayush Saxena</span></a></li>
-                          <li><a href="https://www.facebook.com/Aayush19saxena"><span>Peifeng Jing</span></a></li>
-                      </ul>
-                  </li>
-              </ul>
-          </div>
-          <div class="col-xs-3">
-              <ul>
-                  <li>About Us
-                      <ul><li>We are classmates in Info 343A</li></ul>
-                  </li>
-              </ul>
-          </div>
-          <div class="col-xs-3">
-              <ul>Portfolio</ul>
-          </div>
-          <div class="col-xs-3">
-              <ul>FAQS</ul>
-          </div>
-      </footer>
-   </body>
+
+<head>
+    <!-- Metadata -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Seattle-Crime">
+    <meta name="author" content="Aayush Saxena, Hu XiaoBo, PeiFeng Jing, Wenhuan Wei">
+    <title>Seattle Crime</title>
+    <!-- load css link -->
+    <!-- icon to be decided -->
+    <!--<link rel="icon" type="image/png" href="img/pencil.png">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel='stylesheet'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link rel="stylesheet" href="css/leaflet.awesome-markers.css">
+    <link rel="stylesheet" href="css/L.Icon.Pulse.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <!-- load Angular library-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+    <!-- load ui-router module -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
+    <!-- load ui-boostrap module if needed-->
+    <script src='js/ui-bootstrap-tpls-1.3.3.min.js'></script>
+    <!-- load Leflet libraries -->
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <!-- load leaflet-directive -->
+    <script src="http://tombatossals.github.io/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
+    <script src="js/leaflet.awesome-markers.min.js"></script>
+    <script src="js/L.Icon.Pulse.js" />
+    <!--Font awesome CDN-->
+    <script src="https://use.fontawesome.com/eb7deced9b.js"></script>
+    <!-- load our own Angular.js -->
+    <script src="js/city.js"></script>
+    <script src="js/nav.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav role="navigation" id="navigation" class="container">
+        <ul class="list-inline">
+            <li><a ui-sref='home' class="nav-text">Home</a></li>
+            <li><a ui-sref='alert' class="nav-text">Crimes Nearby</a></li>
+            <li><a ui-sref='list' class="nav-text">Recent Crimes</a></li>
+            <li><a ui-sref='tips' class="nav-text">Safety Tips</a></li>
+        </ul>
+    </nav>
+    <!-- main -->
+    <main role="main">
+        <div ui-view></div>
+    </main>
+</body>
+
+<footer class="footer">
+    <div class="container">
+        <p>Copyright (c) 2016</p>
+        <p>Developed by Aayush Saxena, Hu XiaoBo, PeiFeng Jing and Wenhuan Wei.</p>
+    </div>
+</footer>
+
+
 </html>
