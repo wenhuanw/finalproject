@@ -33,7 +33,7 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, 
     $urlRouterProvider.otherwise('/home');
 }]);
 
-myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
 
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
 
@@ -50,14 +50,14 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 		console.log("Map Drawn");
 
 		var json;
-		$scope.arr = [];
+		var arr = [];
 		$http.get(url).then(function (response) {
 			var data = response.data;
 			$scope.data = data;
 			json = $scope.data.data;
 			//console.log(json[0]);
 			for (var i = 0; i < json.length; i++) {
-				$scope.arr.push({
+				arr.push({
 					id: json[i][8],
 					offense_number: json[i][9],
 					offense: json[i][12],
@@ -123,10 +123,10 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 				}
 
 				for (var i = 0; i < allLayers.length; i++) {
-					map.addLayer(allLayers[i]);
+					$scope.map.addLayer(allLayers[i]);
 				}
 
-				L.control.layers(null, {
+				$scope.lControl = L.control.layers(null, {
 					"Assualt": assault,
 					"Hazard": hazard,
 					"Burglary": burglary,
@@ -137,10 +137,13 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 					"Robbery": robbery,
 					"Traffic": traffic,
 					"Other": other
-				}).addTo(map);
+				});
+				$scope.lControl.addTo($scope.map);
 			}
 		});
     }
+
+
 
 
 	// function to get the hour of the crime 
@@ -179,7 +182,6 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 		}
 		return i;
 	}
-
 
 
 	// create crime map within 20 minutes before
@@ -268,12 +270,21 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 		var urlTest = "https://data.seattle.gov/resource/pu5n-trf4.json?$where=event_clearance_date between '2016-07-20T07:22:18.825' and '2016-07-20T10:22:18.825' ";
 
 		// clear all the layers on map
-		$scope.map.eachLayer(function (layer) {
-			$scope.map.removeLayer(layer);
-		});
+		if ($scope.map !== undefined) {
+			$scope.map.eachLayer(function (layer) {
+				$scope.map.removeLayer(layer);
+			});
+
+		}
 
 		// remove the controller on map
-		$scope.map.removeControl($scope.lControl);
+		//console.log('the controller is: ');
+		//console.log($scope.lControl);
+		if ($scope.lControl !== undefined) {
+			//console.log('delete the controller');
+			$scope.map.removeControl($scope.lControl);
+		}
+
 
 		// add the tile layer on the map to make a map looks like a map
 		var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
@@ -300,6 +311,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 			console.log(arr.length);
 
 			// function used to add markers of each crime, by creating a layergroup for each typee of crime
+			$scope.crimeNowList = [];
 			customBuild(arr);
 			function customBuild(arr) {
 				$scope.assault = new L.LayerGroup([]);
@@ -338,6 +350,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 					var diff = $scope.minuete - minHappen >= 0 ? $scope.minuete - minHappen : $scope.minuete + 60 - minHappen;
 					// for those crimes happening within 5 minutes
 					if (diff <= 5) {
+						$scope.crimeNowList.push(curr);
 						console.log('crime now');
 						// create custom icon
 						/*
@@ -364,7 +377,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 						} else if (type === "BURGLARY ALACAD(FALSE)") {
 							marker.addTo($scope.burglary);
 						} else if (type === "DISTURBANCES") {
-							marker.addTo($scope.noise);
+							marker.addTo($scope.disturbance);
 						} else if (type === "THEFT") {
 							marker.addTo($scope.theft);
 						} else if (type === "SUSPICIOUS CIRCUMSTANCES") {
@@ -403,7 +416,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 								color: 'purple'
 								, fillOpacity: 0.8
 							});
-							marker.addTo($scope.noise);
+							marker.addTo($scope.disturbance);
 						} else if (type === "THEFT") {
 							marker = new L.circleMarker([lat, lng], {
 								color: 'brown'
@@ -425,8 +438,8 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 						} else if (type === "ROBBERY") {
 							marker = new L.circleMarker([lat, lng], {
 								color: 'black'
-								,fillColor:'green'
-								,fillOpacity: 0.8
+								, fillColor: 'green'
+								, fillOpacity: 0.7
 							});
 							marker.addTo($scope.robbery);
 						} else if (type == "TRAFFIC RELATED CALLS") {
@@ -458,7 +471,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 					"Assualt": $scope.assault,
 					"Hazard": $scope.hazard,
 					"Burglary": $scope.burglary,
-					"Noise": $scope.disturbance,
+					"Disturbance": $scope.disturbance,
 					"Theft": $scope.theft,
 					"Suspicious Person": $scope.suspicious_person,
 					"Liquor Violation": $scope.liquor_violation,
@@ -473,6 +486,9 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 		});
     };
 }]);
+
+
+
 
 myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', function ($scope, $http, $window, $interval) {
 	/*
@@ -646,7 +662,7 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 				$scope.assault = new L.LayerGroup([]);
 				$scope.hazard = new L.LayerGroup([]);
 				$scope.burglary = new L.LayerGroup([]);
-				$scope.disturbance = new L.LayerGroup([]);
+				$scope.noise = new L.LayerGroup([]);
 				$scope.theft = new L.LayerGroup([]);
 				$scope.suspicious_person = new L.LayerGroup([]);
 				$scope.liquor_violation = new L.LayerGroup([]);
@@ -766,8 +782,8 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 						} else if (type === "ROBBERY") {
 							marker = new L.circleMarker([lat, lng], {
 								color: 'black'
-								,fillColor:'green'
-								,fillOpacity: 0.8
+								, fillColor: 'green'
+								, fillOpacity: 0.7
 							});
 							marker.addTo($scope.robbery);
 						} else if (type == "TRAFFIC RELATED CALLS") {
