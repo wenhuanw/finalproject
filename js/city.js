@@ -1064,12 +1064,8 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 }]);
 
 
-<<<<<<< HEAD
-myApp.controller('ListCtrl', ['$scope', '$http',function ($scope, $http) {
-	$scope.ordering = "incident_time";
-=======
+
 myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 	// URL of our API
 	var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
 	console.log(url);
