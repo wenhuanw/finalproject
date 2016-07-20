@@ -1,6 +1,11 @@
 #map {
-	height: 700px;
-	margin-top: 5%;	
+	height: 50em;
+	margin-top: 1em;
+	margin-bottom: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Sans Pro', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
 }
 #injection {
 	margin-top: 5%;
@@ -17,11 +22,10 @@ html,body {
 }
 
 .footer {
-  position: fixed;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  height: 6em;
   background-color: #F0E5DE;
 }
 
@@ -29,7 +33,7 @@ html,body {
 #navigation {
 	position: fixed;
 	width: 100%;
-	z-index: auto;
+	z-index: 10;
 	background-color: blueviolet;
 	display: inline-block;
 	text-align: center;
@@ -45,6 +49,7 @@ html,body {
 
 .nav-text {
 	color: white;
+	font-variant: small-caps;
 }
 
 .nav-text:hover, .nav-text:focus {
