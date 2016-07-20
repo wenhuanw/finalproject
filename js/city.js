@@ -53,12 +53,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 			return map;
 		}
 
-<<<<<<< HEAD
-		////console.log("Map Drawn");
-		var json;
-=======
 		console.log("Map Drawn");
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 
 		var json;
 		var arr = [];
@@ -79,10 +74,6 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 				});
 			}
 			//console.log(arr);
-<<<<<<< HEAD
-=======
-
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 
 			// arr represents our data
 
@@ -169,15 +160,9 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 
 	// function to get the hour of the crime 
 	$scope.getHour = function (s) {
-<<<<<<< HEAD
-		////console.log("time is: " +s);
-		var sHour = s.slice(s.length - 8, s.length - 6);
-		////console.log("sHour is: " +sHour);
-=======
 		//console.log("time is: " +s);
 		var sHour = s.substr(s.length - 12, 2);
 		//console.log("sHour is: " +sHour);
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 		var incidentHour = parseInt(sHour);
 		return incidentHour;
 
@@ -185,15 +170,9 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 
 	// function to get the date of the crime
 	$scope.getDay = function (s) {
-<<<<<<< HEAD
-		////console.log("time is: "+s);
-		var sDay = s.slice(s.length - 11, s.length - 9);
-		////console.log("day is: " + sDay);
-=======
 		//console.log("time is: "+s);
 		var sDay = s.substr(s.length - 15, 2);
 		//console.log("day is: " + sDay);
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 		var incidentDay = parseInt(sDay);
 		return incidentDay;
 	}
@@ -220,12 +199,6 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 
 	// create crime map within 20 minutes before
 	$scope.loadRecent = function () {
-<<<<<<< HEAD
-		//$scope.lcontrol = {};
-		//console.log($scope.map.removeLayer($scope.lcontrol));
-		$scope.map.removeLayer($scope.lcontrol);
-=======
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 
 		// get the current time with the same format of the crime's time
 		$scope.getTimeNow = function () {
@@ -333,25 +306,6 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 
 		// get the API data and store in arr variable as an array of crime object
 		var arr = [];
-<<<<<<< HEAD
-		$http.get(url).then(function (response) {
-			var data = response.data;
-			$scope.data = data;
-			json = $scope.data.data;
-			////console.log(json[0]);
-			for (var i = 0; i < json.length; i++) {
-				arr.push({
-					id: json[i][8],
-					offense_number: json[i][9],
-					offense: json[i][12],
-					street: json[i][16],
-					incident_time: json[i][15],
-					latitude: json[i][21],
-					longitude: json[i][20]
-				});
-			}
-			// function used to add markers of each crime, by creating a layergroup for each typee of markers(crimes)
-=======
 		console.log(urlTest);
 		$http.get(urlTest).then(function (response) {
 			// respons.data is an array of crime object
@@ -361,7 +315,6 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 			console.log(arr.length);
 
 			// function used to add markers of each crime, by creating a layergroup for each typee of crime
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 			customBuild(arr);
 			function customBuild(arr) {
 				$scope.assault = new L.LayerGroup([]);
@@ -494,11 +447,6 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 				for (var i = 0; i < $scope.allLayers.length; i++) {
 					$scope.map.addLayer($scope.allLayers[i]);
 				}
-<<<<<<< HEAD
-				////console.log('$scope.lcontrol:');
-				////console.log($scope.lcontrol);
-				//$scope.lcontrol.addTo($scope.map);
-=======
 
 
 				// create a controller for each layer group and add it to the map
@@ -517,8 +465,6 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 				}).addTo($scope.map);
 				//console.log('$scope.lcontrol:');
 				//console.log($scope.lcontrol);
-
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 			}
 
 		});
@@ -649,13 +595,8 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 
 myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
 	// URL of our API
-<<<<<<< HEAD
-    var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
-    //console.log(url);
-=======
 	var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
 	console.log(url);
->>>>>>> 30a181f9dca667b46c1ca0b83c1f361b22cb7389
 	// load data
 	$http.get(url).then(function (response) {
 		var data = response.data;
@@ -951,9 +892,11 @@ myApp.controller('commonCtrl', ['$scope', '$http', function($scope, $http){
 	}
 
 }]);
-
+/* commenting out unless team wants responsive nav 
+//ng-controller='myNav'
+//ng-show="isActive('/alert')
 myApp.controller('myNav',['$scope', '$location', function($scope, $location){
     $scope.isActive = function (viewLocation) { 
         return !(viewLocation === $location.path());
     };
-}]);
+}]);*/
