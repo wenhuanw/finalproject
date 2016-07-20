@@ -44,54 +44,22 @@
               <li ng-show="isActive('/alert')"><a class="navBar" aria-label="goes to Crime Level" ui-sref=".alert">Crime Level</a></li>
               <li ng-show="isActive('/list')"><a class="navBar" aria-label="goes to Recent Crime" ui-sref=".list">Recent Crime</a></li>
               <li ng-show="isActive('/safety_tips')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".tips">Safety Tips</a></li>
+              <li ng-show="isActive('/danger')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".danger">Nearby Crimes</a></li>
           </ul>
       </nav>
-      <!-- check crime types -->
-      <form role="form" class="container" ng-controller="TypeCtrl" id="checkBox" class="col-xs-9">
-          <label ng-repeat="item in crimeTypes track by $index">
-              <input type="checkbox" value="{{item.value}}" ng-click="toggle($index)">
-                {{item.type}}
-              </input>
-          </label>
-      </form>
       <!-- main is here -->
       <!-- partials to be added -->
       <div class="col-xs-12">
+        <!-- check crime types -->
+        <form role="form" class="container" ng-controller="TypeCtrl" id="checkBox" class="col-xs-9">
+            <label ng-repeat="item in crimeTypes track by $index">
+                <input type="checkbox" value="{{item.value}}" ng-click="toggle($index)">
+                    {{item.type}}
+                </input>
+            </label>
+        </form>
         <div ui-view class="container-fluid col-xs-9" id="injection"></div>
-        <div class="container-fluid col-xs-3" ng-controller="commonCtrl" id="sidebar">
-            <section id="topThree" data-ng-init="useAutoLoc()" ng-show="{{hasCrime}}">
-                <!--button to use current location-->
-                <div id="hasGPS" ng-show="{{foundGps}}">
-                    <h1>Top 3 most common crime in local area: </h1>    
-                        <p id="topCrime">{{topThreeCrime.firstkey}}, frequency : {{topThreeCrime.firstval}}</p>
-                        <p>{{topThreeCrime.secondkey}}, frequency : {{topThreeCrime.secondval}}</p>
-                        <p>{{topThreeCrime.thirdkey}}, frequency : {{topThreeCrime.thirdval}}</p>
-                </div>
-                <div id="noGPS" ng-show="{{!foundGps}}">
-                    <p>Unable to detect GPS, <button class="pure-button pure-button-primary" data-ng-click="useAutoLoc()">Click Here to Refresh</button></p>
-                </div>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th><a href="">Offense</a></th>
-                            <th><a href="">Street</a></th>
-                            <th><a href="">Time</a></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in data | orderBy: '-incident_time'">
-                            <td>{{item.offense.toLowerCase()}}</td>
-                            <td>{{item.street.toLowerCase()}}</td>
-                            <td>{{item.incident_time | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
-                        </tr>                
-                    </tbody>
-                </table>
-            </section>
-            <section id="noCrime" ng-show="{{hasCrime}}">
-                <h1>There are no crime reported near where you are!</h1>
-            </section>
-        </div>
-</div>
+      </div>
       <!-- footer -->
       <footer>
           <div class="col-xs-3">
