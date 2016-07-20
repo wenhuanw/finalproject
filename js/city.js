@@ -29,6 +29,11 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, 
 			templateUrl: 'partials/statistics.html',
 			controller: 'StatCtrl'
 		})
+		.state('danger', {
+			url: '/danger',
+			templateUrl: 'partials/danger.html',
+			controller: 'commonCtrl'
+		})
 
     $urlRouterProvider.otherwise('/home');
 }]);
@@ -48,7 +53,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 			return map;
 		}
 
-		console.log("Map Drawn");
+		////console.log("Map Drawn");
 		var json;
 
 		var arr = [];
@@ -56,7 +61,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 			var data = response.data;
 			$scope.data = data;
 			json = $scope.data.data;
-			//console.log(json[0]);
+			////console.log(json[0]);
 			for (var i = 0; i < json.length; i++) {
 				arr.push({
 					id: json[i][8],
@@ -68,7 +73,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 					longitude: json[i][20]
 				});
 			}
-			console.log(arr);
+			//console.log(arr);
 
 			// arr represents our data
 
@@ -148,9 +153,9 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 
 	// get the hour data of the happened incident 
 	$scope.getHour = function (s) {
-		//console.log("time is: " +s);
+		////console.log("time is: " +s);
 		var sHour = s.slice(s.length - 8, s.length - 6);
-		//console.log("sHour is: " +sHour);
+		////console.log("sHour is: " +sHour);
 		var incidentHour = parseInt(sHour);
 		return incidentHour;
 
@@ -158,9 +163,9 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 
 	// get the date data of the happened incident 
 	$scope.getDay = function (s) {
-		//console.log("time is: "+s);
+		////console.log("time is: "+s);
 		var sDay = s.slice(s.length - 11, s.length - 9);
-		//console.log("day is: " + sDay);
+		////console.log("day is: " + sDay);
 		var incidentDay = parseInt(sDay);
 		return incidentDay;
 	}
@@ -169,7 +174,7 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 	// create crime map within one hour before
 	$scope.loadRecent = function () {
 		//$scope.lcontrol = {};
-		console.log($scope.map.removeLayer($scope.lcontrol));
+		//console.log($scope.map.removeLayer($scope.lcontrol));
 		$scope.map.removeLayer($scope.lcontrol);
 
 		// bug 
@@ -197,7 +202,7 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 			var data = response.data;
 			$scope.data = data;
 			json = $scope.data.data;
-			//console.log(json[0]);
+			////console.log(json[0]);
 			for (var i = 0; i < json.length; i++) {
 				arr.push({
 					id: json[i][8],
@@ -267,8 +272,8 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 				for (var i = 0; i < $scope.allLayers.length; i++) {
 					$scope.map.addLayer($scope.allLayers[i]);
 				}
-				//console.log('$scope.lcontrol:');
-				//console.log($scope.lcontrol);
+				////console.log('$scope.lcontrol:');
+				////console.log($scope.lcontrol);
 				//$scope.lcontrol.addTo($scope.map);
 			}
 
@@ -395,7 +400,7 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
 	// URL of our API
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
-    console.log(url);
+    //console.log(url);
 	// load data
 	$http.get(url).then(function (response) {
 		var data = response.data;
@@ -412,9 +417,9 @@ myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
 				longitude: json[i][20]
 			});
 		}
-		console.log('list.html data:');
+		//console.log('list.html data:');
 		$scope.data = arr;
-		console.log($scope.data);
+		//console.log($scope.data);
 	});
 }]);
 
@@ -429,9 +434,9 @@ myApp.controller('TypeCtrl', ['$scope', function ($scope) {
 		{ 'type': 'traffic', 'value': false }];
 
 	$scope.toggle = function (index) {
-		console.log(index);
+		//console.log(index);
 		$scope.crimeTypes[index].value = !$scope.crimeTypes[index].value;
-		console.log($scope.crimeTypes);
+		//console.log($scope.crimeTypes);
 	}
 }]);
 
@@ -522,8 +527,8 @@ myApp.controller('bewareCtrl', ['$scope', '$http', function($scope, $http){
 			$scope.endYears.push(i);
 		}
 		$scope.start_year = start;
-		console.log('end year: ');
-		console.log($scope.endYears);
+		//console.log('end year: ');
+		//console.log($scope.endYears);
 	};
 	$scope.changeStartYear = function (end) {   // change the range of start year if end year is selected
 		$scope.startYears = [];
@@ -531,8 +536,8 @@ myApp.controller('bewareCtrl', ['$scope', '$http', function($scope, $http){
 			$scope.startYears.push(i);
 		}
 		$scope.end_year = end;
-		console.log('start year: ');
-		console.log($scope.startYears);
+		//console.log('start year: ');
+		//console.log($scope.startYears);
 	};
 
 	// load data
@@ -542,14 +547,14 @@ myApp.controller('bewareCtrl', ['$scope', '$http', function($scope, $http){
 		var url = URL + "$where=event_clearance_date between '" + year + "-01-01T00:00:00' and '" + year + "-12-31T23:59:59'";  // add time range
 		url += "&$select=zone_beat, count(*)";
 		url += "&$group=zone_beat";
-		console.log(url);
+		//console.log(url);
 		$http.get(url).then(function (response) {
 			var thisYear = response.config.url.substring(86, 90);
-			console.log(thisYear);
+			//console.log(thisYear);
 			for (var i = 0; i < response.data.length; i++) {
 				$scope.count.push({ 'year': thisYear, 'data': response.data[i], 'neighbor': getNeighborhood(response.data[i].zone_beat) });
 			}
-			console.log($scope.count);
+			//console.log($scope.count);
 		});
 	}
 
@@ -557,14 +562,14 @@ myApp.controller('bewareCtrl', ['$scope', '$http', function($scope, $http){
 	for (var year = $scope.start_year; year <= $scope.end_year; year++) {
 		var url = URL + "$where=event_clearance_date between '" + year + "-01-01T00:00:00' and '" + year + "-12-31T23:59:59'";  // add time range
 		url += "&$select=count(*)";
-		console.log(url);
+		//console.log(url);
 		$http.get(url).then(function (response) {
 			var thisYear = response.config.url.substring(86, 90);
-			console.log(thisYear);
+			//console.log(thisYear);
 			for (var i = 0; i < response.data.length; i++) {
 				$scope.statOfYear.push({ 'year': thisYear, 'count': response.data[0].count });
 			}
-			console.log($scope.statOfYear);
+			//console.log($scope.statOfYear);
 		});
 	}
 
@@ -572,59 +577,81 @@ myApp.controller('bewareCtrl', ['$scope', '$http', function($scope, $http){
 
 myApp.controller('commonCtrl', ['$scope', '$http', function($scope, $http){
 	//refresh current location 
-	console.log("Entered");
-	function useAutoLoc() {
-		console.log("useAutoLoc");
-		//gets current location
+	$scope.curPos = [];
+	//gets current location
+	$scope.useAutoLoc = function() {
 		if(navigator.geolocation){
-			$scope.lat = position.coords.latitude;
-			$scope.long = position.coords.longitude;
+			navigator.geolocation.getCurrentPosition(showPos);
 		} else {
 			return output.innerHTML = "<p> Unable to find current location </p>";
 		}
-	}
-	$http.get(url).then(function(response) {
-		console.log($scope.lat);
-		console.log($scope.long);
-		if(angular.isNumber($scope.lat) && angular.isNumber($scope.long)){
-			console.log("getData");
-	        var data = response.data;
-	        var json = response.data.data;
-			var arrInfo = [];
-			var arrFreq = [];
-	        for (var i = 0; i < json.length; i++) {
-				var distance  = checkDist($scope.lat,$scope.long,json[i][21],json[i][20]);
-				if(distance < 1000){
-					arrInfo.push({
-						id: json[i][8],
-						offense_number: json[i][9],
-						offense: json[i][12],
-						street: json[i][16],
-						incident_time: new Date(json[i][15]),
-						latitude: json[i][21],
-						longitude: json[i][20]
-	            	});
-					if(arrFreq.length === 0){
-						arrFreq[json[i][12]] = 1;
-					} else {
-						if(arrFreq.hasOwnProperty('json[i][12]')){
-							arrFreq[json[i][12]] = arrFreq.json[i][12] + 1;
-						} else {
-							arrFreq[json[i][12]] = 1;
+		function showPos(position){
+			console.log(navigator.geolocation);
+			$scope.lat = position.coords.latitude;
+			$scope.long = position.coords.longitude;
+			console.log("got lat " + $scope.lat + " & long" +$scope.long);
+		}	
+		var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
+		$http.get(url).then(function(response) {
+			console.log($scope.lat);
+			console.log($scope.long);
+			if(angular.isNumber($scope.lat) && angular.isNumber($scope.long)){
+				console.log("went past gps check");
+				$scope.foundGps = true;
+				var data = response.data;
+				var json = response.data.data;
+				var arrInfo = [];
+				var arrFreq = [{ASSAULT: 0}, {HAZARDS: 0}, {BURGLARY: 0}, {THEFT: 0}, {SUSPICIOUS: 0}, {LIQUOR: 0}, {ROBBERY: 0}, {TRAFFIC: 0}, {NARCOTICS: 0}, {VEHICLE: 0}/*, {RANDOM_CRIMES: 0}*/];
+				var crimeNear = false;
+				for (var i = 0; i < json.length; i++) {
+					console.log("entered for loop");
+					var distance  = checkDist($scope.lat,$scope.long,json[i][21],json[i][20]);
+					console.log(distance);
+					if(distance < 5000){
+						$scope.hasCrime = true;
+						crimeNear = true;
+						console.log(json[i][12]);
+						var crime = checkCrimes(json[i][12]);
+						if(typeof crime != 'undefined'){
+							console.log(crime);
+							arrInfo.push({
+								offense: json[i][12],
+								street: json[i][16],
+								incident_time: new Date(json[i][15]),
+								latitude: json[i][21],
+								longitude: json[i][20]
+							});
+							if(arrFreq.hasOwnProperty(crime)){
+								console.log(arrFreq[crime]+"b");
+								arrFreq[crime] = arrFreq[crime] + 1;
+								console.log(arrFreq[crime]);
+							} else {
+								console.log(arrFreq[crime]+"c");
+								arrFreq[crime] = 1;
+								console.log(arrFreq[crime]);
+							}
 						}
 					}
 				}
-	        }
-			sortByFreq(arrFreq);
-		}
-	});
+				sortByFreq(arrFreq, function(key, value){console.log(key + ": " + value);});
+				sortByFreq(arrFreq, this.method, this);
+				if(!crimeNear){
+					$scope.hasCrime = false;
+				}
+			} else {
+				$scope.foundGps = false;
+				alert('Position Coordinate not found');
+			}
+		});
+	}
 
+	//find the distance between two location, result is in meters
 	function checkDist (baseLat,baseLong,givenLat,givenLong){
 		var earthRad = 6371e3; 
-		var baseLatR = baseLat.toRadians();
-		var givenLatR = givenLat.toRadians();
-		var diffLatR = (givenLat-baseLat).toRadians();
-		var diffLongR = (givenLong-baseLong).toRadians();
+		var baseLatR = toRadians(baseLat);
+		var givenLatR = toRadians(givenLat);
+		var diffLatR = toRadians(givenLat-baseLat);
+		var diffLongR = toRadians(givenLong-baseLong);
 
 		var a = Math.sin(diffLatR/2) * Math.sin(diffLatR/2) +
 				Math.cos(baseLatR) * Math.cos(givenLatR) *
@@ -634,22 +661,57 @@ myApp.controller('commonCtrl', ['$scope', '$http', function($scope, $http){
 		var distance = earthRad * c;
 		return distance;
 	}
+	
+	//convert degree into radians
+	function toRadians(degree){
+		return (degree * Math.PI / 180);
+	}
 
-	function sortByFreq (crimeFreqA){
-		var crimeList = Object.keys(crimeFreqA).malp(function(crimeFreqA) {
-			return {key: key, value: this[key]};
-		}, crimeFreqA);
-		crimeList.sort(function(v1,v2) {
-			return v2.value - v1.value;
+	function checkCrimes(crimeName){
+		if(crimeName.includes("ASSAULT"))
+			return "ASSAULT";
+		else if(crimeName.includes("HAZARDS"))
+			return "HAZARDS";
+		else if(crimeName.includes("BURGLARY"))
+			return "BURGLARY";
+		else if(crimeName.includes("THEFT"))
+			return "THEFT";
+		else if(crimeName.includes("SUSPICIOUS"))
+			return "SUSPICIOUS";
+		else if(crimeName.includes("LIQUOR"))
+			return "LIQUOR";
+		else if(crimeName.includes("ROBBERY"))
+			return "ROBBERY";
+		else if(crimeName.includes("TRAFFIC"))
+			return "TRAFFIC";
+		else if(crimeName.includes("NARCOTICS"))
+			return "NARCOTICS";
+		else if(crimeName.includes("VEHICLE"))
+			return "VEHICLE";
+		//else 
+			//return "RANDOM_CRIMES";
+	}
+
+	function sortByFreq (crimeFreqA, callback, context){
+		console.log("entered sorting by frequency");
+		console.log(crimeFreqA);
+		var newList = [];
+		for (var key in crimeFreqA) 
+			newList.push([key, crimeFreqA[key]]);
+		newList.sort(function(a, b) { 
+			return a[1] < b[1] ? 1 : a[1] > b[1] ? -1 : 0 
 		});
-		var topThree = crimeList.slice(0, 3);
+		var length = newList.length;
+		while (length--) callback.call(context, newList[length][0], newList[length][1]);
+		var topThree = newList.slice(1).slice(-3);
+		console.log(topThree);
 		$scope.topThreeCrime = {};
-		$scope.topThreeCrime.firstkey = topThree[0];
-		$scope.topThreeCrime.secondkey = topThree[1];
-		$scope.topThreeCrime.thirdkey = topThree[2];
-		$scope.topThreeCrime.firstval = topThree[0];
-		$scope.topThreeCrime.secondval = topThree[1];
-		$scope.topThreeCrime.thirdval = topThree[2];
+		$scope.topThreeCrime.firstkey = topThree[2][0];
+		$scope.topThreeCrime.secondkey = topThree[1][0];
+		$scope.topThreeCrime.thirdkey = topThree[0][0];
+		$scope.topThreeCrime.firstval = topThree[2][1];
+		$scope.topThreeCrime.secondval = topThree[1][1];
+		$scope.topThreeCrime.thirdval = topThree[0][1];
 	}
 
 }]);

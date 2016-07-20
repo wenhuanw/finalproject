@@ -27,12 +27,15 @@
       <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
       <!-- load leaflet-directive -->
       <script src="http://tombatossals.github.io/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
-      <script src="js/leaflet.awesome-markers.min.js"></script>        
+      <script src="js/leaflet.awesome-markers.min.js"></script>      
+      <!-- geolocation cdn -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/geo-location-javascript/0.4.8/geo.js"></script>  
+      <!-- Jquery js -->
+      <script src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
       <!--Font awesome CDN-->
       <script src="https://use.fontawesome.com/eb7deced9b.js"></script>
       <!-- load our own Angular.js -->
       <script src="js/city.js"></script>
-      <script src="js/nav.js"></script>
    </head>
    <body>
       <nav class="container" id="navMenu" ng-controller='myNav'>
@@ -41,6 +44,7 @@
               <li ng-show="isActive('/alert')"><a class="navBar" aria-label="goes to Crime Level" ui-sref=".alert">Crime Level</a></li>
               <li ng-show="isActive('/list')"><a class="navBar" aria-label="goes to Recent Crime" ui-sref=".list">Recent Crime</a></li>
               <li ng-show="isActive('/safety_tips')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".tips">Safety Tips</a></li>
+              <li ng-show="isActive('/danger')"><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".danger">Nearby Crimes</a></li>
           </ul>
       </nav>
       <!-- check crime types -->
@@ -54,35 +58,8 @@
       <!-- main is here -->
       <!-- partials to be added -->
       <div class="col-xs-12">
-        <div ui-view class="col-xs-9" id="injection"></div>
-        <!--sidebar NOT WORKING YET-->
-        <div class="container col-xs-3" ng-controller="commonCtrl" id="sidebar">
-            <section>
-                <!--button to use current location-->
-                <button type="button" value="currentLocation" ng-click="useAutoLoc()">Refresh Location using GPS</button>
-                <h1>Top 3 most common crime in area: </h1>
-                <p>First: {{topThreeCrime.firstkey}}, frequency : {{topThreeCrime.firstval}}</p>
-                <p>Second: {{topThreeCrime.secondkey}}, frequency : {{topThreeCrime.secondval}}</p>
-                <p>Third: {{topThreeCrime.thirdkey}}, frequency : {{topThreeCrime.thirdval}}</p>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th><a href="">Offense</a></th>
-                            <th><a href="">Street</a></th>
-                            <th><a href="">Time</a></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in data | filter: listSearchTerm | orderBy: '-incident_time'">
-                            <td>{{item.offense.toLowerCase()}}</td>
-                            <td>{{item.street.toLowerCase()}}</td>
-                            <td>{{item.incident_time | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
-                        </tr>                
-                    </tbody>
-                </table>
-            </section>
-        </div>
-</div>
+        <div ui-view class="container-fluid col-xs-9" id="injection"></div>
+      </div>
       <!-- footer -->
       <footer>
           <div class="col-xs-3">
