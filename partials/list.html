@@ -5,9 +5,10 @@
     </form>
     
     <div class="table-responsive">
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered container-fluid">
             <thead>
                 <tr>
+<<<<<<< HEAD
                     <th><a href="" ng-click="ordering='offense'">Offense</a></th>
                     <th><a href="" ng-click="ordering='street'">Street</a></th>
                     <th><a href="" ng-click="ordering='-incident_time'">Time</a></th>
@@ -15,6 +16,15 @@
             </thead>
             <tbody>
                 <tr ng-repeat="item in data | orderBy:ordering | filter:listSearchTerm">
+=======
+                    <th><a href="" ng-click="ordering=offense">Offense</a></th>
+                    <th><a href="" ng-click="ordering=street">Street</a></th>
+                    <th><a href="" ng-click="ordering=-incident_time">Time</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in data | filter: listSearchTerm | orderBy: 'ordering'">
+>>>>>>> 256d259b3b08e15dc646461fc6203272e09a2869
                     <td>{{item.offense.toLowerCase()}}</td>
                     <td>{{item.street.toLowerCase()}}</td>
                     <td>{{item.incident_time | date: 'MM/dd/yyyy HH:mm:ss'}}</td>

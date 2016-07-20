@@ -7,14 +7,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Source Sans Pro', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 500;
 }
-#injection {
-	margin-top: 5%;
-	
-	margin-bottom: 5%;
-	min-height: 90%;
-	position: fixed;
-	display: block;
-}
 html,body {
 	min-height: 100%;
 	height: 100%;
@@ -53,7 +45,9 @@ html,body {
 }
 
 .nav-text:hover, .nav-text:focus {
-	color: white;
+	color: black; 
+	background-color: darkgray; 
+	text-decoration: none;
 }
 
 /* main */
@@ -62,6 +56,9 @@ main {
 	padding-bottom: 4em;
 }
 
+#call a {
+	color: black
+}
 
 .responsive-width {
     font-size: 1.5vw;
@@ -98,4 +95,7 @@ main {
     margin: 0;
     opacity: 1;
     transition: 0s
+}
+.crime{
+	color: red;
 }
