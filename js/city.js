@@ -136,7 +136,8 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 	                } else {
 	                    circle.addTo(other);
 	                }
-	                circle.bindPopup(offense + " at " + street + " at " + time);
+	                circle.addTo(map).bindPopup(offense + " at " + street + " at " + time).openPopup();
+
 	            }
 
 	            for (var i = 0; i < allLayers.length; i++) {
@@ -412,6 +413,7 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 
 
 myApp.controller('ListCtrl', ['$scope', '$http',function ($scope, $http) {
+	$scope.ordering = "incident_time";
 	// URL of our API
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
     console.log(url);
