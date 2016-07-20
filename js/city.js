@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('CityApp', ['ui.router','navApp']);
+var myApp = angular.module('CityApp', ['ui.router', 'navApp']);
 
 
 myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -24,121 +24,124 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, 
 			url: '/safety_tips',
 			templateUrl: 'partials/tips.html'
 		})
+		.state('statistics', {
+			url: '/statistics',
+			templateUrl: 'partials/statistics.html',
+			controller: 'StatCtrl'
+		})
 
     $urlRouterProvider.otherwise('/home');
 }]);
 
 myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
-    
+
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
 
-    $scope.load = function() {
-    var map = drawMap();
+    $scope.load = function () {
+		var map = drawMap();
 
 
-	    function drawMap() {
-	        map = L.map('map').setView([47.6553, -122.3035], 13);
-	        var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
-	        layer.addTo(map);
-	        return map;
-	    }
+		function drawMap() {
+			map = L.map('map').setView([47.6553, -122.3035], 13);
+			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+			layer.addTo(map);
+			return map;
+		}
 
-	    console.log("Map Drawn");
-	    var json;
+		console.log("Map Drawn");
+		var json;
 
-	    var arr = [];
-	    $http.get(url).then(function(response) {
-	        var data = response.data;
-	        $scope.data = data;
-	        json = $scope.data.data;
-	        //console.log(json[0]);
-	        for (var i = 0; i < json.length; i++) {
-	            arr.push({
-	                id: json[i][8],
-	                offense_number: json[i][9],
-	                offense: json[i][12],
-	                street: json[i][16],
-	                incident_time: json[i][15],
-	                latitude: json[i][21],
-	                longitude: json[i][20]
-	            });
-	        }
-	        console.log(arr);
+		var arr = [];
+		$http.get(url).then(function (response) {
+			var data = response.data;
+			$scope.data = data;
+			json = $scope.data.data;
+			//console.log(json[0]);
+			for (var i = 0; i < json.length; i++) {
+				arr.push({
+					id: json[i][8],
+					offense_number: json[i][9],
+					offense: json[i][12],
+					street: json[i][16],
+					incident_time: json[i][15],
+					latitude: json[i][21],
+					longitude: json[i][20]
+				});
+			}
+			console.log(arr);
 
-	        // arr represents our data
+			// arr represents our data
 
-	        customBuild(arr);
+			customBuild(arr);
 
-	        function customBuild(arr) {
-	            var assault = new L.LayerGroup([]);
-	            var hazard = new L.LayerGroup([]);
-	            var burglary = new L.LayerGroup([]);
-	            var noise = new L.LayerGroup([]);
-	            var theft = new L.LayerGroup([]);
-	            var suspicious_person = new L.LayerGroup([]);
-	            var liquor_violation = new L.LayerGroup([]);
-	            var robbery = new L.LayerGroup([]);
-	            var traffic = new L.LayerGroup([]);
-	            var other = new L.LayerGroup([]);
-	            var allLayers = [assault, hazard, burglary, noise, theft, suspicious_person, liquor_violation, robbery, traffic, other];
-	            for (var i = 0; i < arr.length; i++) {
-	                var curr = arr[i];
-	                var lat = curr["latitude"];
-	                var lng = curr["longitude"];
-	                var street = curr["street"];
-	                var time = curr["incident_time"];
-	                var offense_number = curr["offense_number"];
-	                var offense = curr["offense"];
+			function customBuild(arr) {
+				var assault = new L.LayerGroup([]);
+				var hazard = new L.LayerGroup([]);
+				var burglary = new L.LayerGroup([]);
+				var noise = new L.LayerGroup([]);
+				var theft = new L.LayerGroup([]);
+				var suspicious_person = new L.LayerGroup([]);
+				var liquor_violation = new L.LayerGroup([]);
+				var robbery = new L.LayerGroup([]);
+				var traffic = new L.LayerGroup([]);
+				var other = new L.LayerGroup([]);
+				var allLayers = [assault, hazard, burglary, noise, theft, suspicious_person, liquor_violation, robbery, traffic, other];
+				for (var i = 0; i < arr.length; i++) {
+					var curr = arr[i];
+					var lat = curr["latitude"];
+					var lng = curr["longitude"];
+					var street = curr["street"];
+					var time = curr["incident_time"];
+					var offense_number = curr["offense_number"];
+					var offense = curr["offense"];
 
-	                var circle = new L.circleMarker([lat, lng], {
-	                    color: 'red'
-	                })
-	                if (offense.includes("ASSAULT")) {
-	                    circle.addTo(assault);
-	                } else if (offense.includes("HAZARDS")) {
-	                    circle.addTo(hazard);
-	                } else if (offense.includes("BURGLARY")) {
-	                    circle.addTo(burglary);
-	                } else if (offense.includes("NOISE")) {
-	                    circle.addTo(noise);
-	                } else if (offense.includes("THEFT")) {
-	                    circle.addTo(theft);
-	                } else if (offense.includes("SUSPICIOUS")) {
-	                    circle.addTo(suspicious_person);
-	                } else if (offense.includes("LIQUOR")) {
-	                    circle.addTo(liquor_violation);
-	                } else if (offense.includes("ROBBERY")) {
-	                    circle.addTo(robbery);
-	                } else if (offense.includes("TRAFFIC")) {
-	                    circle.addTo(traffic);
-	                } else {
-	                    circle.addTo(other);
-	                }
-	                circle.bindPopup(offense + " at " + street + " at " + time);
-	            }
+					var circle = new L.circleMarker([lat, lng], {
+						color: 'red'
+					})
+					if (offense.includes("ASSAULT")) {
+						circle.addTo(assault);
+					} else if (offense.includes("HAZARDS")) {
+						circle.addTo(hazard);
+					} else if (offense.includes("BURGLARY")) {
+						circle.addTo(burglary);
+					} else if (offense.includes("NOISE")) {
+						circle.addTo(noise);
+					} else if (offense.includes("THEFT")) {
+						circle.addTo(theft);
+					} else if (offense.includes("SUSPICIOUS")) {
+						circle.addTo(suspicious_person);
+					} else if (offense.includes("LIQUOR")) {
+						circle.addTo(liquor_violation);
+					} else if (offense.includes("ROBBERY")) {
+						circle.addTo(robbery);
+					} else if (offense.includes("TRAFFIC")) {
+						circle.addTo(traffic);
+					} else {
+						circle.addTo(other);
+					}
+					circle.bindPopup(offense + " at " + street + " at " + time);
+				}
 
-	            for (var i = 0; i < allLayers.length; i++) {
-	                map.addLayer(allLayers[i]);
-	            }
+				for (var i = 0; i < allLayers.length; i++) {
+					map.addLayer(allLayers[i]);
+				}
 
-	            L.control.layers(null, {
-	                "Assualt": assault,
-	                "Hazard": hazard,
-	                "Burglary": burglary,
-	                "Noise": noise,
-	                "Theft": theft,
-	                "Suspicious Person": suspicious_person,
-	                "Liquor Violation": liquor_violation,
-	                "Robbery": robbery,
-	                "Traffic": traffic,
-	                "Other": other
-	            }).addTo(map);
-	        }
-	    });
+				L.control.layers(null, {
+					"Assualt": assault,
+					"Hazard": hazard,
+					"Burglary": burglary,
+					"Noise": noise,
+					"Theft": theft,
+					"Suspicious Person": suspicious_person,
+					"Liquor Violation": liquor_violation,
+					"Robbery": robbery,
+					"Traffic": traffic,
+					"Other": other
+				}).addTo(map);
+			}
+		});
     }
 }]);
-
-
 
 myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 	var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
@@ -403,50 +406,118 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 
-myApp.controller('ListCtrl', ['$scope', '$http',function ($scope, $http) {
+myApp.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
 	// URL of our API
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
     console.log(url);
 	// load data
-	$http.get(url).then(function(response) {
-	        var data = response.data;
-	        var json = response.data.data;
-			var arr = [];
-	        for (var i = 0; i < json.length; i++) {
-	            arr.push({
-	                id: json[i][8],
-	                offense_number: json[i][9],
-	                offense: json[i][12],
-	                street: json[i][16],
-	                incident_time: new Date(json[i][15]),
-	                latitude: json[i][21],
-	                longitude: json[i][20]
-	            });
-	        }
-	        console.log('list.html data:');
-			$scope.data = arr;
-			console.log($scope.data);
+	$http.get(url).then(function (response) {
+		var data = response.data;
+		var json = response.data.data;
+		var arr = [];
+		for (var i = 0; i < json.length; i++) {
+			arr.push({
+				id: json[i][8],
+				offense_number: json[i][9],
+				offense: json[i][12],
+				street: json[i][16],
+				incident_time: new Date(json[i][15]),
+				latitude: json[i][21],
+				longitude: json[i][20]
+			});
+		}
+		console.log('list.html data:');
+		$scope.data = arr;
+		console.log($scope.data);
 	});
 }]);
 
-myApp.controller('TypeCtrl', ['$scope', function($scope) {
+myApp.controller('TypeCtrl', ['$scope', function ($scope) {
 	$scope.crimeTypes = [
-		{'type':'assult', 'value':false},
-		{'type':'hazard', 'value':false},
-		{'type':'burglary', 'value':false},
-		{'type':'noise', 'value':false},
-		{'type':'theft', 'value':false},
-		{'type':'robbery', 'value':false},
-		{'type':'traffic', 'value':false}];
-		
-	$scope.toggle = function(index) {
+		{ 'type': 'assult', 'value': false },
+		{ 'type': 'hazard', 'value': false },
+		{ 'type': 'burglary', 'value': false },
+		{ 'type': 'noise', 'value': false },
+		{ 'type': 'theft', 'value': false },
+		{ 'type': 'robbery', 'value': false },
+		{ 'type': 'traffic', 'value': false }];
+
+	$scope.toggle = function (index) {
 		console.log(index);
 		$scope.crimeTypes[index].value = !$scope.crimeTypes[index].value;
 		console.log($scope.crimeTypes);
 	}
 }]);
 
+myApp.controller('StatCtrl', ['$scope', '$http', function ($scope, $http) {
 
+	// choose table for general or details
+	$scope.type = 'General';
+
+	// year selection control
+	$scope.earliesYear = 2009;
+	$scope.latestYear = 2016;
+	$scope.startYears = [];
+	$scope.endYears = [];
+	for (var i = $scope.earliesYear; i <= $scope.latestYear; i++) {   // initialization
+		$scope.startYears.push(i);
+		$scope.endYears.push(i);
+		$scope.start_year = $scope.earliesYear;   // selected start date
+		$scope.end_year = $scope.latestYear;   // selected end date
+	}
+	$scope.changeEndYear = function (start) {   // change the range of end year if start year is selected
+		$scope.endYears = [];
+		for (var i = start; i <= $scope.latestYear; i++) {   // initialization
+			$scope.endYears.push(i);
+		}
+		$scope.start_year = start;
+		console.log('end year: ');
+		console.log($scope.endYears);
+	};
+	$scope.changeStartYear = function (end) {   // change the range of start year if end year is selected
+		$scope.startYears = [];
+		for (var i = $scope.earliesYear; i <= end; i++) {   // initialization
+			$scope.startYears.push(i);
+		}
+		$scope.end_year = end;
+		console.log('start year: ');
+		console.log($scope.startYears);
+	};
+
+	// load data
+	var URL = 'https://data.seattle.gov/resource/pu5n-trf4.json?';
+	$scope.count = [];
+	for (var year = $scope.start_year; year <= $scope.end_year; year++) {
+		var url = URL + "$where=event_clearance_date between '" + year + "-01-01T00:00:00' and '" + year + "-12-31T23:59:59'";  // add time range
+		url += "&$select=zone_beat, count(*)";
+		url += "&$group=zone_beat";
+		console.log(url);
+		$http.get(url).then(function (response) {
+			var thisYear = response.config.url.substring(86,90);
+			console.log(thisYear);
+			for (var i = 0; i < response.data.length; i++) {
+				$scope.count.push({ 'year': thisYear, 'data': response.data[i] });
+			}
+			console.log($scope.count);
+		});
+	}
+
+	$scope.statOfYear = [];
+	for (var year = $scope.start_year; year <= $scope.end_year; year++) {
+		var url = URL + "$where=event_clearance_date between '" + year + "-01-01T00:00:00' and '" + year + "-12-31T23:59:59'";  // add time range
+		url += "&$select=count(*)";
+		console.log(url);
+		$http.get(url).then(function (response) {
+			var thisYear = response.config.url.substring(86,90);
+			console.log(thisYear);
+			for (var i = 0; i < response.data.length; i++) {
+				$scope.statOfYear.push({ 'year': thisYear, 'count': response.data[0].count});
+			}
+			console.log($scope.statOfYear);
+		});
+	}
+
+}]);
 
 
 /* commenting out until i have it working
