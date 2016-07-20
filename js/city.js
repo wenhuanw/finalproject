@@ -601,7 +601,7 @@ myApp.controller('commonCtrl', ['$scope', '$http', function($scope, $http){
 				var data = response.data;
 				var json = response.data.data;
 				var arrInfo = [];
-				var arrFreq = [{ASSAULT: 0}, {HAZARDS: 0}, {BURGLARY: 0}, {THEFT: 0}, {SUSPICIOUS: 0}, {LIQUOR: 0}, {ROBBERY: 0}, {TRAFFIC: 0}, {NARCOTICS: 0}, {VEHICLE: 0}/*, {RANDOM_CRIMES: 0}*/];
+				var arrFreq = [{type:"ASSAULT", freq: 0}, {type:"HAZARDS", freq: 0}, {type:"BURGLARY", freq: 0}, {type:"THEFT", freq: 0}, {type:"SUSPICIOUS", freq: 0}, {type:"LIQUOR", freq: 0}, {type:"ROBBERY", freq: 0}, {type:"TRAFFIC", freq: 0}, {type:"NARCOTICS", freq: 0}, {type:"VEHICLE", freq: 0}/*, {{type:"RANDOM_CRIMES, freq: 0}*/];
 				var crimeNear = false;
 				for (var i = 0; i < json.length; i++) {
 					console.log("entered for loop");
@@ -610,31 +610,34 @@ myApp.controller('commonCtrl', ['$scope', '$http', function($scope, $http){
 					if(distance < 5000){
 						$scope.hasCrime = true;
 						crimeNear = true;
-						console.log(json[i][12]);
 						var crime = checkCrimes(json[i][12]);
 						if(typeof crime != 'undefined'){
-							console.log(crime);
 							arrInfo.push({
 								offense: json[i][12],
 								street: json[i][16],
-								incident_time: new Date(json[i][15]),
-								latitude: json[i][21],
-								longitude: json[i][20]
+								incident_time: new Date(json[i][15])
 							});
-							if(arrFreq.hasOwnProperty(crime)){
-								console.log(arrFreq[crime]+"b");
-								arrFreq[crime] = arrFreq[crime] + 1;
-								console.log(arrFreq[crime]);
-							} else {
-								console.log(arrFreq[crime]+"c");
-								arrFreq[crime] = 1;
-								console.log(arrFreq[crime]);
+							for(var j=0; j<arrFreq.length; j++){
+								if(arrFreq[j].type === crime)
+									arrFreq[j].freq = arrFreq[j].freq + 1;
 							}
 						}
 					}
 				}
-				sortByFreq(arrFreq, function(key, value){console.log(key + ": " + value);});
-				sortByFreq(arrFreq, this.method, this);
+				$scope.arrInfo = arrInfo;
+				console.log("arrInfo :" + arrInfo);
+				arrFreq.sort(function(a,b){
+					return parseFloat(a.freq) - parseFloat(b.freq);
+				})
+				var topThree = arrFreq.slice(1).slice(-3);
+				console.log(topThree);
+				$scope.topThreeCrime = {};
+				$scope.topThreeCrime.firstkey = topThree[2].type;
+				$scope.topThreeCrime.secondkey = topThree[1].type;
+				$scope.topThreeCrime.thirdkey = topThree[0].type;
+				$scope.topThreeCrime.firstval = topThree[2].freq;
+				$scope.topThreeCrime.secondval = topThree[1].freq;
+				$scope.topThreeCrime.thirdval = topThree[0].freq;
 				if(!crimeNear){
 					$scope.hasCrime = false;
 				}
@@ -690,28 +693,6 @@ myApp.controller('commonCtrl', ['$scope', '$http', function($scope, $http){
 			return "VEHICLE";
 		//else 
 			//return "RANDOM_CRIMES";
-	}
-
-	function sortByFreq (crimeFreqA, callback, context){
-		console.log("entered sorting by frequency");
-		console.log(crimeFreqA);
-		var newList = [];
-		for (var key in crimeFreqA) 
-			newList.push([key, crimeFreqA[key]]);
-		newList.sort(function(a, b) { 
-			return a[1] < b[1] ? 1 : a[1] > b[1] ? -1 : 0 
-		});
-		var length = newList.length;
-		while (length--) callback.call(context, newList[length][0], newList[length][1]);
-		var topThree = newList.slice(1).slice(-3);
-		console.log(topThree);
-		$scope.topThreeCrime = {};
-		$scope.topThreeCrime.firstkey = topThree[2][0];
-		$scope.topThreeCrime.secondkey = topThree[1][0];
-		$scope.topThreeCrime.thirdkey = topThree[0][0];
-		$scope.topThreeCrime.firstval = topThree[2][1];
-		$scope.topThreeCrime.secondval = topThree[1][1];
-		$scope.topThreeCrime.thirdval = topThree[0][1];
 	}
 
 }]);
