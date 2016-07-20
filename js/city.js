@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('CityApp', ['ui.router', 'navApp']);
+var myApp = angular.module('CityApp', ['ui.router']);
 
 
 myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -24,6 +24,11 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, 
 			url: '/safety_tips',
 			templateUrl: 'partials/tips.html'
 		})
+		.state('statistics', {
+			url: '/statistics',
+			templateUrl: 'partials/statistics.html',
+			controller: 'StatCtrl'
+		})
 
     $urlRouterProvider.otherwise('/home');
 }]);
@@ -43,9 +48,9 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 			return map;
 		}
 
-		//console.log("Map Drawn");
-		var json;
+		console.log("Map Drawn");
 
+		var json;
 		var arr = [];
 		$http.get(url).then(function (response) {
 			var data = response.data;
@@ -64,6 +69,7 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 				});
 			}
 			//console.log(arr);
+
 
 			// arr represents our data
 
@@ -133,60 +139,10 @@ myApp.controller('mapCtrl', ['$scope', '$http', function ($scope, $http) {
 					"Traffic": traffic,
 					"Other": other
 				}).addTo(map);
-
 			}
 		});
-    };
-
-	$scope.transformDate = function (month, day, hour, minuete, second, millionSecond) {
-		var result = "2016-" + month + "-" + day + "T" + hour + ":" + minuete + ":" + second + "." + millionSecond;
-		//console.log(result);
-		return result;
-	};
-	//console.log($scope.transformDate(month, day, hour, minuete, second, millionSecond));
-
-
-	/*
-	$scope.loadRecent = function () {
-
-		var d = new Date();
-		var millionSecond = d.getMilliseconds;
-		var second = d.getSeconds();
-		var minuete = d.getMinutes();
-		var hour = d.getHours();
-		var day = d.getDate();
-		var month = d.getMonth;
-
-		var urlNew = "https://data.seattle.gov/resource/pu5n-trf4.json?$where=event_clearance_date IS NOT NULL&$order=event_clearance_date DESC&$limit=20";
-		//$scope.timeNow
-		//var urlNew = "https://data.seattle.gov/resource/pu5n-trf4.json?$where=event_clearance_date between '" + $scope.timeHappend + "' and '" + $scope.timeNow + "' ";
-		//var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?";
-		var json;
-		var arr = [];
-		$http.get(urlNew).then(function (response) {
-			var data = response.data;
-			$scope.data = data;
-			json = $scope.data.data;
-			//console.log(json[0]);
-			for (var i = 0; i < json.length; i++) {
-				arr.push({
-					id: json[i][8],
-					offense_number: json[i][9],
-					offense: json[i][12],
-					street: json[i][16],
-					incident_time: json[i][15],
-					latitude: json[i][21],
-					longitude: json[i][20]
-				});
-			};
-
-		});
-	};
-    */
-
+    }
 }]);
-
-
 
 myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', function ($scope, $http, $window, $interval) {
 	/*
@@ -328,7 +284,7 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 			$scope.map.removeLayer(layer);
 		});
 
- 		// remove the controller on map
+		// remove the controller on map
 		$scope.map.removeControl($scope.lControl);
 
 		// add the tile layer on the map to make a map looks like a map
@@ -412,30 +368,67 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 						var pulsingIcon = L.icon.pulse({ iconSize: [20, 20], color: 'red' });
 						marker = L.marker([lat, lng], { icon: pulsingIcon }).bindPopup(type + " happened " + diff + " minutes ago at " + street);
 						marker.addTo($scope.happenNow);
-					// for other crimes happening between 10 and 20 minutes ago, create circle markers with different colors for them
+						// for other crimes happening between 10 and 20 minutes ago, create circle markers with different colors for them
 					} else {
-						marker = new L.circleMarker([lat, lng], {
-							color: 'red'
-						});
 						if (type === "ASSAULTS") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'red'
+							    ,fillOpacity: 0.6
+							});
 							marker.addTo($scope.assault);
 						} else if (type === "HAZARDS") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'yellow'
+								,fillOpacity: 0.9
+							});
 							marker.addTo($scope.hazard);
 						} else if (type === "BURGLARY ALACAD(FALSE)") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'blue'
+								,fillOpacity: 0.8
+							});
 							marker.addTo($scope.burglary);
 						} else if (type === "DISTURBANCES") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'purple'
+								,fillOpacity: 0.8
+							});
 							marker.addTo($scope.noise);
 						} else if (type === "THEFT") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'brown'
+								,fillOpacity: 0.8
+							});
 							marker.addTo($scope.theft);
 						} else if (type === "SUSPICIOUS CIRCUMSTANCES") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'coral'
+								,fillOpacity: 0.8
+							});
 							marker.addTo($scope.suspicious_person);
 						} else if (type === "LIQUOR VIOLATIONS") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'orange'
+								,fillOpacity: 0.9
+							});
 							marker.addTo($scope.liquor_violation);
 						} else if (type === "ROBBERY") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'black'
+								,fillOpacity: 0.7
+							});
 							marker.addTo($scope.robbery);
 						} else if (type == "TRAFFIC RELATEDS CALLS") {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'violet'
+								,fillOpacity: 0.8
+							});
 							marker.addTo($scope.traffic);
 						} else {
+							marker = new L.circleMarker([lat, lng], {
+								color: 'syan'
+								,fillOpacity: 0.5
+							});
 							marker.addTo($scope.other);
 
 						}
@@ -450,7 +443,8 @@ myApp.controller('AlertCtrl', ['$scope', '$http', '$window', '$interval', functi
 				for (var i = 0; i < $scope.allLayers.length; i++) {
 					$scope.map.addLayer($scope.allLayers[i]);
 				}
-	
+
+
 				// create a controller for each layer group and add it to the map
 				$scope.lcontrol = L.control.layers(null, {
 					"Assualt": $scope.assault,
@@ -639,7 +633,139 @@ myApp.controller('TypeCtrl', ['$scope', function ($scope) {
 	}
 }]);
 
+myApp.controller('StatCtrl', ['$scope', '$http', function ($scope, $http) {
 
+	// choose table for general or details
+	$scope.type = 'General';
+
+	// Seattle Neighbors and Precinct Map
+	$scope.precinct = [
+		{ 'beat': '99', 'precinct': 'North Precinct', 'Neighbors': '' },
+		{ 'beat': 'N1', 'precinct': 'North Precinct', 'Neighbors': 'BITTERLAKE, BALLARD NORTH, GREENWOOD' },
+		{ 'beat': 'N2', 'precinct': 'North Precinct', 'Neighbors': 'BITTERLAKE, NORTHGATE' },
+		{ 'beat': 'N3', 'precinct': 'North Precinct', 'Neighbors': 'BITTERLAKE, NORTHGATE, GREENWOOD' },
+		{ 'beat': 'J1', 'precinct': 'North Precinct', 'Neighbors': 'BALLARD NORTH, GREENWOOD' },
+		{ 'beat': 'J2', 'precinct': 'North Precinct', 'Neighbors': 'BALLARD NORTH, GREENWOOD, PHINNEY RIDGE' },
+		{ 'beat': 'J3', 'precinct': 'North Precinct', 'Neighbors': 'GREENWOOD, PHINNEY RIDGE, ROOSEVELT/RAVENNA' },
+		{ 'beat': 'B1', 'precinct': 'North Precinct', 'Neighbors': 'BALLARD SOUTH' },
+		{ 'beat': 'B2', 'precinct': 'North Precinct', 'Neighbors': 'BALLARD SOUTH, FREMONT, PHINNEY RIDGE' },
+		{ 'beat': 'B3', 'precinct': 'North Precinct', 'Neighbors': 'WOLLINGFORD, FREMONT, PHINNEY RIDGE' },
+		{ 'beat': 'L1', 'precinct': 'North Precinct', 'Neighbors': 'LAKECITY, NORTHGATE' },
+		{ 'beat': 'L2', 'precinct': 'North Precinct', 'Neighbors': 'LAKECITY, NORTHGATE, ROOSEVELT/RAVENNA' },
+		{ 'beat': 'L3', 'precinct': 'North Precinct', 'Neighbors': 'LAKECITY, SANDPOINT' },
+		{ 'beat': 'U1', 'precinct': 'North Precinct', 'Neighbors': 'ROOSEVELT/RAVENNA, UNIVERSITY' },
+		{ 'beat': 'U2', 'precinct': 'North Precinct', 'Neighbors': 'UNIVERSITY' },
+		{ 'beat': 'U3', 'precinct': 'North Precinct', 'Neighbors': 'SANDPOINT, UNIVERSITY, ROOSEVELT/RAVENNA' },
+		{ 'beat': 'Q1', 'precinct': 'West Precinct', 'Neighbors': 'MAGNOLIA' },
+		{ 'beat': 'Q2', 'precinct': 'West Precinct', 'Neighbors': 'QUEEN ANNE' },
+		{ 'beat': 'Q3', 'precinct': 'West Precinct', 'Neighbors': 'QUEEN ANNE, SLU/CASCADE' },
+		{ 'beat': 'D1', 'precinct': 'West Precinct', 'Neighbors': 'BELLTOWN, SLU/CASCADE' },
+		{ 'beat': 'D2', 'precinct': 'West Precinct', 'Neighbors': 'QUEEN ANNE, SLU/CASCADE' },
+		{ 'beat': 'D3', 'precinct': 'West Precinct', 'Neighbors': 'EASTLAKE - WEST, SLU/CASCADE' },
+		{ 'beat': 'M1', 'precinct': 'West Precinct', 'Neighbors': 'DOWNTOWN COMMERCIAL' },
+		{ 'beat': 'M2', 'precinct': 'West Precinct', 'Neighbors': 'DOWNTOWN COMMERCIAL, SLU/CASCADE' },
+		{ 'beat': 'M3', 'precinct': 'West Precinct', 'Neighbors': 'DOWNTOWN COMMERCIAL' },
+		{ 'beat': 'K1', 'precinct': 'West Precinct', 'Neighbors': 'DOWNTOWN COMMERCIAL' },
+		{ 'beat': 'K2', 'precinct': 'West Precinct', 'Neighbors': 'PIONEER SQUARE' },
+		{ 'beat': 'K3', 'precinct': 'West Precinct', 'Neighbors': 'INTERNATIONAL DISTRICT - WEST' },
+		{ 'beat': 'C1', 'precinct': 'East Precinct', 'Neighbors': 'MONTLAKE/PORTAGE BAY, EASTLAKE - EAST, NROTH CAPITOL HILL, CAPITAL HILL, MILLER PARK, CENTRAL AREA/SQUIRE PARK' },
+		{ 'beat': 'C2', 'precinct': 'East Precinct', 'Neighbors': 'MILLER PARK, MONTLAKE/PORTAGE BAY, MADISON PARK, CENTRAL AREA/SQUIRE PARK' },
+		{ 'beat': 'C3', 'precinct': 'East Precinct', 'Neighbors': 'MADISON PARK, CENTRAL AREA/SQUIRE PARK, MADRONA/LESCHI' },
+		{ 'beat': 'E1', 'precinct': 'East Precinct', 'Neighbors': 'CAPITOL HILL' },
+		{ 'beat': 'E2', 'precinct': 'East Precinct', 'Neighbors': 'CAPITOL HILL, FIRST HILL' },
+		{ 'beat': 'E3', 'precinct': 'East Precinct', 'Neighbors': 'CAPITOL HILL, FIRST HILL' },
+		{ 'beat': 'G1', 'precinct': 'East Precinct', 'Neighbors': 'INTERNAIONAL DISTRICT, FIRST HILL, JUNDKINS PARK' },
+		{ 'beat': 'G2', 'precinct': 'East Precinct', 'Neighbors': 'MADRONA/LESCHI, JUDKINS PARK' },
+		{ 'beat': 'G3', 'precinct': 'East Precinct', 'Neighbors': 'JUDKINS PARK, NORTH BEACON/JEFFERSON, MT BAKER/NORTH RAINIER, MADRONA/LESCHI, MT BAKER/NORTH RAINIER' },
+		{ 'beat': 'W1', 'precinct': 'Southwest Precinct', 'Neighbors': 'ALKI, NORTH ADMIRAL, COMMERCIAL HARBOR ISLAND, COMMERCIAL DUWAMISH' },
+		{ 'beat': 'W2', 'precinct': 'Southwest Precinct', 'Neighbors': 'ALKI, ALASKA JUNCTION, NORTH DELRIDGE' },
+		{ 'beat': 'W3', 'precinct': 'Southwest Precinct', 'Neighbors': 'MORGAN, FAUNTLEROY SW, ROXHILL/WESTWOOD/ARBOR' },
+		{ 'beat': 'F1', 'precinct': 'Southwest Precinct', 'Neighbors': 'COMMERCIAL DUWAMISH, PIGEON POINT, HIGH POINT, NORTH DELRIDGE, SOUTH PARK' },
+		{ 'beat': 'F2', 'precinct': 'Southwest Precinct', 'Neighbors': 'ROXHILL/WESTWOOD/ARBOR' },
+		{ 'beat': 'F3', 'precinct': 'Southwest Precinct', 'Neighbors': 'HIGHLAND PARK' },
+		{ 'beat': 'O1', 'precinct': 'South Precinct', 'Neighbors': 'SODO' },
+		{ 'beat': 'O2', 'precinct': 'South Precinct', 'Neighbors': 'SODO, GEORGETOWN' },
+		{ 'beat': 'O3', 'precinct': 'South Precinct', 'Neighbors': 'GEORGETOWN, SOUTH BEACON HILL' },
+		{ 'beat': 'R1', 'precinct': 'South Precinct', 'Neighbors': 'NORTH BEACON HILL, MID BEACON HILL' },
+		{ 'beat': 'R2', 'precinct': 'South Precinct', 'Neighbors': 'NORTH BEACON HILL, MOUNT BAKER, CLAREMONT/RAINIER VISTA' },
+		{ 'beat': 'R3', 'precinct': 'South Precinct', 'Neighbors': 'LAKEWOOD/SEWARD PARK, GENESEE, COLUMBIA CITY, HILMAN CITY' },
+		{ 'beat': 'S1', 'precinct': 'South Precinct', 'Neighbors': 'MID BEACON HILL, NEW HOLLY, SOUTH BEACON HILL' },
+		{ 'beat': 'S2', 'precinct': 'South Precinct', 'Neighbors': 'BRIGHTON/DUNLAP, RAINIER BEACH' },
+		{ 'beat': 'S3', 'precinct': 'South Precinct', 'Neighbors': 'RAINIER BEACH, RAINIER VIEW' },
+	];
+	function getNeighborhood(beat) {
+		for (var i = 0; i < $scope.precinct.length; i++) {
+			if ($scope.precinct[i].beat == beat) {
+				return $scope.precinct[i].Neighbors;
+			}
+		}
+		return '';
+	}
+
+	// year selection control
+	$scope.earliesYear = 2009;
+	$scope.latestYear = 2016;
+	$scope.startYears = [];
+	$scope.endYears = [];
+	for (var i = $scope.earliesYear; i <= $scope.latestYear; i++) {   // initialization
+		$scope.startYears.push(i);
+		$scope.endYears.push(i);
+		$scope.start_year = $scope.earliesYear;   // selected start date
+		$scope.end_year = $scope.latestYear;   // selected end date
+	}
+	$scope.changeEndYear = function (start) {   // change the range of end year if start year is selected
+		$scope.endYears = [];
+		for (var i = start; i <= $scope.latestYear; i++) {   // initialization
+			$scope.endYears.push(i);
+		}
+		$scope.start_year = start;
+		console.log('end year: ');
+		console.log($scope.endYears);
+	};
+	$scope.changeStartYear = function (end) {   // change the range of start year if end year is selected
+		$scope.startYears = [];
+		for (var i = $scope.earliesYear; i <= end; i++) {   // initialization
+			$scope.startYears.push(i);
+		}
+		$scope.end_year = end;
+		console.log('start year: ');
+		console.log($scope.startYears);
+	};
+
+	// load data
+	var URL = 'https://data.seattle.gov/resource/pu5n-trf4.json?';
+	$scope.count = [];
+	for (var year = $scope.start_year; year <= $scope.end_year; year++) {
+		var url = URL + "$where=event_clearance_date between '" + year + "-01-01T00:00:00' and '" + year + "-12-31T23:59:59'";  // add time range
+		url += "&$select=zone_beat, count(*)";
+		url += "&$group=zone_beat";
+		console.log(url);
+		$http.get(url).then(function (response) {
+			var thisYear = response.config.url.substring(86, 90);
+			console.log(thisYear);
+			for (var i = 0; i < response.data.length; i++) {
+				$scope.count.push({ 'year': thisYear, 'data': response.data[i], 'neighbor': getNeighborhood(response.data[i].zone_beat) });
+			}
+			console.log($scope.count);
+		});
+	}
+
+	$scope.statOfYear = [];
+	for (var year = $scope.start_year; year <= $scope.end_year; year++) {
+		var url = URL + "$where=event_clearance_date between '" + year + "-01-01T00:00:00' and '" + year + "-12-31T23:59:59'";  // add time range
+		url += "&$select=count(*)";
+		console.log(url);
+		$http.get(url).then(function (response) {
+			var thisYear = response.config.url.substring(86, 90);
+			console.log(thisYear);
+			for (var i = 0; i < response.data.length; i++) {
+				$scope.statOfYear.push({ 'year': thisYear, 'count': response.data[0].count });
+			}
+			console.log($scope.statOfYear);
+		});
+	}
+
+}]);
 
 
 /* commenting out until i have it working
