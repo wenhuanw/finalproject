@@ -62,18 +62,32 @@
       </form>
       <!-- main is here -->
       <!-- partials to be added -->
-      <div ui-view class="col-xs-9" id="injection"></div>
-      <!--sidebar commented out until i get it working
-      <div class="container" ng-controller="bewareCtrl">
-        <section>
-            <!--button to use current location-->
-            <!--button to manually enter location-->
-            <!--checks if location entered, else use current-->
-            <!--enters distance range to show crime-->
-            <!--calls crime api to check-->
-            <!--gets list of crimes nearby-->
-            <!--process and show top 3 most common crime in area
-        </section>-->
+      <div class="col-xs-12">
+        <div ui-view class="col-xs-9" id="injection"></div>
+        <!--sidebar NOT WORKING YET-->
+        <div class="container col-xs-3" ng-controller="bewareCtrl" id="sidebar">
+            <section>
+                <!--button to use current location-->
+                <button type="button" value="currentLocation" ng-click="useAutoLoc()">Refresh Location using GPS</button>
+                <h1>Top 3 most common crime in area: </h1>
+                <p>First: {{topThreeCrime.firstkey}}, frequency : {{topThreeCrime.firstval}}</p>
+                <p>Second: {{topThreeCrime.secondkey}}, frequency : {{topThreeCrime.secondval}}</p>
+                <p>Third: {{topThreeCrime.thirdkey}}, frequency : {{topThreeCrime.thirdval}}</p>    <table class="table">
+                    <tr>
+                        <th><a href="">Offense Number</a></th>
+                        <th><a href="">Offense</a></th>
+                        <th><a href="">Street</a></th>
+                        <th><a href="">Time</a></th>
+                    </tr>
+                    <tr ng-repeat="item in data | filter: listSearchTerm | orderBy: '-incident_time'">
+                        <td>{{item.offense_number}}</td>
+                        <td>{{item.offense}}</td>
+                        <td>{{item.street}}</td>
+                        <td>{{item.incident_time | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
+                    </tr>
+                </table>
+            </section>
+        </div>
 </div>
       <!-- footer -->
       <footer>

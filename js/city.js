@@ -444,42 +444,56 @@ myApp.controller('TypeCtrl', ['$scope', function($scope) {
 }]);
 
 
-
-
-/* commenting out until i have it working
-myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
+myApp.controller('bewareCtrl', ['$scope', '$http', function($scope, $http){
 	//refresh current location 
-	function getGeo() {
+	console.log("Entered");
+	function useAutoLoc() {
+		console.log("useAutoLoc");
 		//gets current location
 		if(navigator.geolocation){
-			$scope.hasGeo = true;
 			$scope.lat = position.coords.latitude;
 			$scope.long = position.coords.longitude;
 		} else {
-			$scope.hasGeo = false;
 			return output.innerHTML = "<p> Unable to find current location </p>";
 		}
 	}
-	var pos = document.get
 	$http.get(url).then(function(response) {
+		console.log($scope.lat);
+		console.log($scope.long);
+		if(angular.isNumber($scope.lat) && angular.isNumber($scope.long)){
+			console.log("getData");
 	        var data = response.data;
 	        var json = response.data.data;
-			var arr = [];
+			var arrInfo = [];
+			var arrFreq = [];
 	        for (var i = 0; i < json.length; i++) {
-				if(checkDist())
-	            arr.push({
-	                id: json[i][8],
-	                offense_number: json[i][9],
-	                offense: json[i][12],
-	                street: json[i][16],
-	                incident_time: new Date(json[i][15]),
-	                latitude: json[i][21],
-	                longitude: json[i][20]
-	            });
+				var distance  = checkDist($scope.lat,$scope.long,json[i][21],json[i][20]);
+				if(distance < 1000){
+					arrInfo.push({
+						id: json[i][8],
+						offense_number: json[i][9],
+						offense: json[i][12],
+						street: json[i][16],
+						incident_time: new Date(json[i][15]),
+						latitude: json[i][21],
+						longitude: json[i][20]
+	            	});
+					if(arrFreq.length === 0){
+						arrFreq[json[i][12]] = 1;
+					} else {
+						if(arrFreq.hasOwnProperty('json[i][12]')){
+							arrFreq[json[i][12]] = arrFreq.json[i][12] + 1;
+						} else {
+							arrFreq[json[i][12]] = 1;
+						}
+					}
+				}
 	        }
+			sortByFreq(arrFreq);
+		}
 	});
 
-	checkDist function(baseLat,baseLong,givenLat,givenLong){
+	function checkDist (baseLat,baseLong,givenLat,givenLong){
 		var earthRad = 6371e3; 
 		var baseLatR = baseLat.toRadians();
 		var givenLatR = givenLat.toRadians();
@@ -491,7 +505,24 @@ myApp.controller('bewareCtrl', ['$scope', '$http', $, function($scope, $http){
 				Math.sin(diffLongR/2) * Math.sin(diffLongR/2);
 		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-		var d = R * c;
+		var distance = earthRad * c;
+		return distance;
 	}
-}]);*/
 
+	function sortByFreq (crimeFreqA){
+		var crimeList = Object.keys(crimeFreqA).malp(function(crimeFreqA) {
+			return {key: key, value: this[key]};
+		}, crimeFreqA);
+		crimeList.sort(function(v1,v2) {
+			return v2.value - v1.value;
+		});
+		var topThree = crimeList.slice(0, 3);
+		$scope.topThreeCrime = {};
+		$scope.topThreeCrime.firstkey = topThree[0];
+		$scope.topThreeCrime.secondkey = topThree[1];
+		$scope.topThreeCrime.thirdkey = topThree[2];
+		$scope.topThreeCrime.firstval = topThree[0];
+		$scope.topThreeCrime.secondval = topThree[1];
+		$scope.topThreeCrime.thirdval = topThree[2];
+	}
+}]);
