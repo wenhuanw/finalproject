@@ -37,26 +37,31 @@
       <!-- load our own Angular.js -->
       <script src="js/city.js"></script>
    </head>
-   <body>
-        <nav role="navigation" id="navigation" class="container">
-            <ul class="list-inline navBar">
-                <li><a class="navBar" aria-label="goes to home" ui-sref='home' class="nav-text">Home</a></li>
-                <li><a class="navBar" aria-label="goes to Crime Level" ui-sref='alert' class="nav-text">Crimes Nearby</a></li>
-                <li><a class="navBar" aria-label="goes to Recent Crime" ui-sref='list' class="nav-text">Recent Crimes</a></li>
-                <li><a class="navBar" aria-label="goes to safety tips" ui-sref='tips' class="nav-text">Safety Tips</a></li>
-                <li><a class="navBar" ui-sref='statistics' class="nav-text">Statistics</a></li>
-                <li ><a class="navBar" aria-label="goes to Safety Tips" ui-sref=".danger">Common Nearby Crimes</a></li>
-            </ul>
-        </nav>
-      <!-- main is here -->
-      <!-- partials to be added -->
-      <div ui-view class="container-fluid" id="injection"></div>
-      <!-- footer -->
-        <footer class="footer">
-            <div class="container">
-                <p>Copyright (c) 2016</p>
-                <p>Developed by Aayush Saxena, Hu XiaoBo, PeiFeng Jing and Wenhuan Wei.</p>
-            </div>
-        </footer>
-   </body>
+
+<body>
+    <!-- Navigation -->
+    <nav role="navigation" id="navigation" class="container">
+        <ul class="list-inline">
+            <li><a ui-sref='home' class="nav-text">Home</a></li>
+            <li><a ui-sref='alert' class="nav-text">Crimes Nearby</a></li>
+            <li><a ui-sref='list' class="nav-text">Recent Crimes</a></li>
+            <li><a ui-sref='tips' class="nav-text">Safety Tips</a></li>
+            <li><a ui-sref='danger' class="nav-text">Common Nearby Crimes</a></li>
+            <li><a ui-sref='statistics' class="nav-text">Statistics</a></li>
+        </ul>
+    </nav>
+    <!-- main -->
+    <main role="main">
+        <div ui-view></div>
+    </main>
+</body>
+
+<footer class="footer">
+    <div class="container">
+        <p>Copyright (c) 2016</p>
+        <p>Developed by Aayush Saxena, Hu XiaoBo, PeiFeng Jing and Wenhuan Wei.</p>
+    </div>
+</footer>
+
+
 </html>

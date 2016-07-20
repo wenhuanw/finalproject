@@ -839,7 +839,7 @@ myApp.controller('commonCtrl', ['$scope', '$http', function($scope, $http){
 				}
 			} else {
 				$scope.foundGps = false;
-				alert('Position Coordinate not found');
+				useAutoLoc();
 			}
 		});
 	}
