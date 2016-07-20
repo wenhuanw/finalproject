@@ -456,12 +456,6 @@ myApp.controller('ListCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.ordering = '-incident_time';
     // URL of our API
     var url = "https://data.seattle.gov/api/views/aym8-bxek/rows.json?$limit=5";
-    // hide column to fit device views
-    $scope.xs = false;
-    console.log(window.innerWidth);
-    if (window.innerWidth < 768) {
-        $scope.xs = true;
-    }
     // load data
     $http.get(url).then(function(response) {
         var data = response.data;
@@ -762,6 +756,7 @@ myApp.controller('StatCtrl', ['$scope', '$http', function($scope, $http) {
         });
     }
 
+
     // hide column to fit device views
     $scope.xs = false;
     console.log(window.innerWidth);
@@ -769,4 +764,5 @@ myApp.controller('StatCtrl', ['$scope', '$http', function($scope, $http) {
         $scope.xs = true;
     }
 }]);
+
 
