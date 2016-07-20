@@ -1,0 +1,58 @@
+<div class="container">
+    <form role="form">
+        <!-- select range of date (year) -->
+        <div>
+            <label>Choose Data Type: </label>
+            <select ng-model="type" ng-options="option for option in ['General', 'Detail']"></select>
+        </div>
+        <div>
+            <label for="startYear">Range of Time: from</label>
+            <select name="startYear" ng-options="year for year in startYears" ng-model="start_year" ng-change="changeEndYear(start_year)"></select>
+            <label for="endYear"> to </label>
+            <select name="endYear" ng-options="year for year in endYears" ng-model="end_year" ng-change="changeStartYear(end_year)"></select>
+        </div>
+        <!-- input area -->
+        <div ng-show="type == 'Detail'">
+            <label for="areaSearch"><i class="fa fa-search" aria-label="Search"></i></label>
+            <input type="text" name="areaSearch" placeholder="Enter the location..." ng-model="area" required>
+        </div>
+    </form>
+
+    <div class="table-responsive" ng-show="type == 'Detail'">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th><a href="">Year</a></th>
+                    <th><a href="">Number of Crimes</a></th>
+                    <th><a href="">Zone Beat</a></th>
+                    <th><a href="">Neighborhoods</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in count | filter : area | orderBy: 'year' track by $index" ng-if="item.year >= start_year && item.year <= end_year">
+                    <td>{{item.year}}</td>
+                    <td>{{item.data.count}}</td>
+                    <td>{{item.data.zone_beat}}</td>
+                    <td>{{item.neighbor}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive" ng-show="type == 'General'">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th><a href="">Year</a></th>
+                    <th><a href="">Number of Crimes</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in statOfYear" ng-if="item.year >= start_year && item.year <= end_year">
+                    <td>{{item.year}}</td>
+                    <td>{{item.count}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
