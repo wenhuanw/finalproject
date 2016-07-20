@@ -15,10 +15,6 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, 
 			templateUrl: 'partials/list.html',
 			controller: 'ListCtrl'
 		})
-		.state('tips', {
-			url: '/safety_tips',
-			templateUrl: 'partials/tips.html'
-		})
 		.state('statistics', {
 			url: '/statistics',
 			templateUrl: 'partials/statistics.html',
@@ -321,8 +317,8 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function ($scope, $
 
 		// get the API data and store in arr variable as an array of crime object
 		var arr = [];
-		console.log('url is: ' + urlTest);
-		$http.get(urlTest).then(function (response) {
+		console.log('url is: ' + urlNew);
+		$http.get(urlNew).then(function (response) {
 			// respons.data is an array of crime object
 			arr = response.data;
 			console.log("get data successfully: ");
@@ -373,19 +369,6 @@ myApp.controller('mapCtrl', ['$scope', '$http', '$interval', function ($scope, $
 						$scope.crimeNowList.push(curr);
 						console.log('crime now');
 						// create custom icon
-						/*
-						var myIcon = L.icon({
-							iconUrl: 'img/Plush-48.png',
-							//iconRetinaUrl: 'my-icon@2x.png',
-							iconSize: [38, 95],
-							iconAnchor: [22, 94],
-							popupAnchor: [-3, -76],
-							//shadowUrl: 'my-icon-shadow.png',
-							//shadowRetinaUrl: 'my-icon-shadow@2x.png',
-							//shadowSize: [68, 95],
-							//shadowAnchor: [22, 94]
-						});
-						*/
 						// create special icon for the crime happen within 10 minutes
 						var pulsingIcon = L.icon.pulse({ iconSize: [20, 20], color: 'red' });
 						marker = L.marker([lat, lng], { icon: pulsingIcon }).bindPopup(type + " happened " + diff + " minutes ago at " + street);
@@ -555,6 +538,7 @@ myApp.controller('TypeCtrl', ['$scope', function ($scope) {
 myApp.controller('StatCtrl', ['$scope', '$http', function ($scope, $http) {
 
 	// choose table for general or details
+	console.log("hello this is StatCtrl");
 	$scope.type = 'General';
 
 	// Seattle Neighbors and Precinct Map
@@ -620,6 +604,8 @@ myApp.controller('StatCtrl', ['$scope', '$http', function ($scope, $http) {
 		}
 		return '';
 	}
+
+	
 }]);
 myApp.controller('bewareCtrl', ['$scope', '$http', function($scope, $http){
 	// year selection control
