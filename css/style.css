@@ -22,14 +22,14 @@ html,body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #f5f5f5;
+  background-color: #F0E5DE;
 }
 
 /* navigation style*/
 #navigation {
 	position: fixed;
-  width: 100%;
-  z-index: auto;
+	width: 100%;
+	z-index: auto;
 	background-color: blueviolet;
 	display: inline-block;
 	text-align: center;
@@ -39,6 +39,8 @@ html,body {
 	padding-bottom: .5em;
 	margin-bottom: 1em;
 	font-size: 16px;
+	color: #1F2124;
+	opacity: 50%;	
 }
 
 .nav-text {

@@ -12,8 +12,8 @@
             <select name="endYear" ng-options="year for year in endYears" ng-model="end_year" ng-change="changeStartYear(end_year)"></select>
         </div>
         <!-- input area -->
-        <div>
-            <label for="areaSearch">Area</label>
+        <div ng-show="type == 'Detail'">
+            <label for="areaSearch"><i class="fa fa-search" aria-label="Search"></i></label>
             <input type="text" name="areaSearch" placeholder="Enter the location..." ng-model="area" required>
         </div>
     </form>

@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('CityApp', ['ui.router', 'navApp']);
+var myApp = angular.module('CityApp', ['ui.router']);
 
 
 myApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -267,23 +267,9 @@ myApp.controller('AlertCtrl', ['$scope', '$http', function ($scope, $http) {
 				for (var i = 0; i < $scope.allLayers.length; i++) {
 					$scope.map.addLayer($scope.allLayers[i]);
 				}
-
-
-				$scope.lcontrol = L.control.layers(null, {
-					"Assualt": $scope.assault,
-					"Hazard": $scope.hazard,
-					"Burglary": $scope.burglary,
-					"Noise": $scope.noise,
-					"Theft": $scope.theft,
-					"Suspicious Person": $scope.suspicious_person,
-					"Liquor Violation": $scope.liquor_violation,
-					"Robbery": $scope.robbery,
-					"Traffic": $scope.traffic,
-					"Other": $scope.other
-				})
 				//console.log('$scope.lcontrol:');
 				//console.log($scope.lcontrol);
-				$scope.lcontrol.addTo($scope.map);
+				//$scope.lcontrol.addTo($scope.map);
 			}
 
 		});
