@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in data | filter: listSearchTerm | orderBy: 'ordering'">
+                <tr ng-repeat="item in data | filter: listSearchTerm | orderBy: ordering">
                     <td>{{item.offense.toLowerCase()}}</td>
                     <td>{{item.street.toLowerCase()}}</td>
                     <td>{{item.incident_time | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
