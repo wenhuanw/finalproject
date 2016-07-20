@@ -3,8 +3,26 @@
 	<section id="header" class="container">
 		<h1>SAFETY PIN</h1>
 		<blockquote>"A service that keeps you safe."</blockquote>
-		<button class="pure-button pure-button-primary" data-ng-click="loadRecent()">alert</button>
+		<button type="button" class="btn btn-danger-outline responsive-width" ng-click="loadRecent()">
+    What Happen Now
+</button>
 	</section>
 
 	<div id="map" data-ng-init="load()" class="container"></div>
+
+	<section id="crimetable" class="container">
+		<table class="table">
+			<caption>Crime Happen Now</caption>
+			<tr>
+				<th scope="col" class="col-xs-2">Type</th>
+				<th scope="col" class="col-xs-3">Time</th>
+				<th scope="col">Street</th>
+			</tr>
+			<tr ng-repeat="item in crimeNowList | orderBy : 'event_clearance_date'">
+				<td>{{item.event_clearance_group}}</td>
+				<td>{{item.event_clearance_date}}</td>
+				<td>{{item.hundred_block_location}}</td>
+			</tr>
+		</table>
+	</section>
 </div>

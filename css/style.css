@@ -65,4 +65,40 @@ main {
 #call a {
 	color: black
 
+
+.responsive-width {
+    font-size: 1.5vw;
+}
+
+.btn-danger-outline {
+    position: relative;
+    background-color: blueviolet;
+    border: none;
+    color: white;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.btn-danger-outline:after {
+    content: "";
+    background: #f1f1f1;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+
+.btn-danger-outline:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
 }
