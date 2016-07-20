@@ -440,6 +440,70 @@ myApp.controller('StatCtrl', ['$scope', '$http', function ($scope, $http) {
 	// choose table for general or details
 	$scope.type = 'General';
 
+	// Seattle Neighbors and Precinct Map
+	$scope.precinct = [
+		{ 'beat': '99', 'precinct': 'North Precinct', 'Neighbors': '' },
+		{ 'beat': 'N1', 'precinct': 'North Precinct', 'Neighbors': 'BITTERLAKE, BALLARD NORTH, GREENWOOD' },
+		{ 'beat': 'N2', 'precinct': 'North Precinct', 'Neighbors': 'BITTERLAKE, NORTHGATE' },
+		{ 'beat': 'N3', 'precinct': 'North Precinct', 'Neighbors': 'BITTERLAKE, NORTHGATE, GREENWOOD' },
+		{ 'beat': 'J1', 'precinct': 'North Precinct', 'Neighbors': 'BALLARD NORTH, GREENWOOD' },
+		{ 'beat': 'J2', 'precinct': 'North Precinct', 'Neighbors': 'BALLARD NORTH, GREENWOOD, PHINNEY RIDGE' },
+		{ 'beat': 'J3', 'precinct': 'North Precinct', 'Neighbors': 'GREENWOOD, PHINNEY RIDGE, ROOSEVELT/RAVENNA' },
+		{ 'beat': 'B1', 'precinct': 'North Precinct', 'Neighbors': 'BALLARD SOUTH' },
+		{ 'beat': 'B2', 'precinct': 'North Precinct', 'Neighbors': 'BALLARD SOUTH, FREMONT, PHINNEY RIDGE' },
+		{ 'beat': 'B3', 'precinct': 'North Precinct', 'Neighbors': 'WOLLINGFORD, FREMONT, PHINNEY RIDGE' },
+		{ 'beat': 'L1', 'precinct': 'North Precinct', 'Neighbors': 'LAKECITY, NORTHGATE' },
+		{ 'beat': 'L2', 'precinct': 'North Precinct', 'Neighbors': 'LAKECITY, NORTHGATE, ROOSEVELT/RAVENNA' },
+		{ 'beat': 'L3', 'precinct': 'North Precinct', 'Neighbors': 'LAKECITY, SANDPOINT' },
+		{ 'beat': 'U1', 'precinct': 'North Precinct', 'Neighbors': 'ROOSEVELT/RAVENNA, UNIVERSITY' },
+		{ 'beat': 'U2', 'precinct': 'North Precinct', 'Neighbors': 'UNIVERSITY' },
+		{ 'beat': 'U3', 'precinct': 'North Precinct', 'Neighbors': 'SANDPOINT, UNIVERSITY, ROOSEVELT/RAVENNA' },
+		{ 'beat': 'Q1', 'precinct': 'West Precinct', 'Neighbors': 'MAGNOLIA' },
+		{ 'beat': 'Q2', 'precinct': 'West Precinct', 'Neighbors': 'QUEEN ANNE' },
+		{ 'beat': 'Q3', 'precinct': 'West Precinct', 'Neighbors': 'QUEEN ANNE, SLU/CASCADE' },
+		{ 'beat': 'D1', 'precinct': 'West Precinct', 'Neighbors': 'BELLTOWN, SLU/CASCADE' },
+		{ 'beat': 'D2', 'precinct': 'West Precinct', 'Neighbors': 'QUEEN ANNE, SLU/CASCADE' },
+		{ 'beat': 'D3', 'precinct': 'West Precinct', 'Neighbors': 'EASTLAKE - WEST, SLU/CASCADE' },
+		{ 'beat': 'M1', 'precinct': 'West Precinct', 'Neighbors': 'DOWNTOWN COMMERCIAL' },
+		{ 'beat': 'M2', 'precinct': 'West Precinct', 'Neighbors': 'DOWNTOWN COMMERCIAL, SLU/CASCADE' },
+		{ 'beat': 'M3', 'precinct': 'West Precinct', 'Neighbors': 'DOWNTOWN COMMERCIAL' },
+		{ 'beat': 'K1', 'precinct': 'West Precinct', 'Neighbors': 'DOWNTOWN COMMERCIAL' },
+		{ 'beat': 'K2', 'precinct': 'West Precinct', 'Neighbors': 'PIONEER SQUARE' },
+		{ 'beat': 'K3', 'precinct': 'West Precinct', 'Neighbors': 'INTERNATIONAL DISTRICT - WEST' },
+		{ 'beat': 'C1', 'precinct': 'East Precinct', 'Neighbors': 'MONTLAKE/PORTAGE BAY, EASTLAKE - EAST, NROTH CAPITOL HILL, CAPITAL HILL, MILLER PARK, CENTRAL AREA/SQUIRE PARK' },
+		{ 'beat': 'C2', 'precinct': 'East Precinct', 'Neighbors': 'MILLER PARK, MONTLAKE/PORTAGE BAY, MADISON PARK, CENTRAL AREA/SQUIRE PARK' },
+		{ 'beat': 'C3', 'precinct': 'East Precinct', 'Neighbors': 'MADISON PARK, CENTRAL AREA/SQUIRE PARK, MADRONA/LESCHI' },
+		{ 'beat': 'E1', 'precinct': 'East Precinct', 'Neighbors': 'CAPITOL HILL' },
+		{ 'beat': 'E2', 'precinct': 'East Precinct', 'Neighbors': 'CAPITOL HILL, FIRST HILL' },
+		{ 'beat': 'E3', 'precinct': 'East Precinct', 'Neighbors': 'CAPITOL HILL, FIRST HILL' },
+		{ 'beat': 'G1', 'precinct': 'East Precinct', 'Neighbors': 'INTERNAIONAL DISTRICT, FIRST HILL, JUNDKINS PARK' },
+		{ 'beat': 'G2', 'precinct': 'East Precinct', 'Neighbors': 'MADRONA/LESCHI, JUDKINS PARK' },
+		{ 'beat': 'G3', 'precinct': 'East Precinct', 'Neighbors': 'JUDKINS PARK, NORTH BEACON/JEFFERSON, MT BAKER/NORTH RAINIER, MADRONA/LESCHI, MT BAKER/NORTH RAINIER' },
+		{ 'beat': 'W1', 'precinct': 'Southwest Precinct', 'Neighbors': 'ALKI, NORTH ADMIRAL, COMMERCIAL HARBOR ISLAND, COMMERCIAL DUWAMISH' },
+		{ 'beat': 'W2', 'precinct': 'Southwest Precinct', 'Neighbors': 'ALKI, ALASKA JUNCTION, NORTH DELRIDGE' },
+		{ 'beat': 'W3', 'precinct': 'Southwest Precinct', 'Neighbors': 'MORGAN, FAUNTLEROY SW, ROXHILL/WESTWOOD/ARBOR' },
+		{ 'beat': 'F1', 'precinct': 'Southwest Precinct', 'Neighbors': 'COMMERCIAL DUWAMISH, PIGEON POINT, HIGH POINT, NORTH DELRIDGE, SOUTH PARK' },
+		{ 'beat': 'F2', 'precinct': 'Southwest Precinct', 'Neighbors': 'ROXHILL/WESTWOOD/ARBOR' },
+		{ 'beat': 'F3', 'precinct': 'Southwest Precinct', 'Neighbors': 'HIGHLAND PARK' },
+		{ 'beat': 'O1', 'precinct': 'South Precinct', 'Neighbors': 'SODO' },
+		{ 'beat': 'O2', 'precinct': 'South Precinct', 'Neighbors': 'SODO, GEORGETOWN' },
+		{ 'beat': 'O3', 'precinct': 'South Precinct', 'Neighbors': 'GEORGETOWN, SOUTH BEACON HILL' },
+		{ 'beat': 'R1', 'precinct': 'South Precinct', 'Neighbors': 'NORTH BEACON HILL, MID BEACON HILL' },
+		{ 'beat': 'R2', 'precinct': 'South Precinct', 'Neighbors': 'NORTH BEACON HILL, MOUNT BAKER, CLAREMONT/RAINIER VISTA' },
+		{ 'beat': 'R3', 'precinct': 'South Precinct', 'Neighbors': 'LAKEWOOD/SEWARD PARK, GENESEE, COLUMBIA CITY, HILMAN CITY' },
+		{ 'beat': 'S1', 'precinct': 'South Precinct', 'Neighbors': 'MID BEACON HILL, NEW HOLLY, SOUTH BEACON HILL' },
+		{ 'beat': 'S2', 'precinct': 'South Precinct', 'Neighbors': 'BRIGHTON/DUNLAP, RAINIER BEACH' },
+		{ 'beat': 'S3', 'precinct': 'South Precinct', 'Neighbors': 'RAINIER BEACH, RAINIER VIEW' },
+	];
+	function getNeighborhood(beat) {
+		for (var i = 0; i < $scope.precinct.length; i++) {
+			if ($scope.precinct[i].beat == beat) {
+				return $scope.precinct[i].Neighbors;
+			}
+		}
+		return '';
+	}
+
 	// year selection control
 	$scope.earliesYear = 2009;
 	$scope.latestYear = 2016;
@@ -479,10 +543,10 @@ myApp.controller('StatCtrl', ['$scope', '$http', function ($scope, $http) {
 		url += "&$group=zone_beat";
 		console.log(url);
 		$http.get(url).then(function (response) {
-			var thisYear = response.config.url.substring(86,90);
+			var thisYear = response.config.url.substring(86, 90);
 			console.log(thisYear);
 			for (var i = 0; i < response.data.length; i++) {
-				$scope.count.push({ 'year': thisYear, 'data': response.data[i] });
+				$scope.count.push({ 'year': thisYear, 'data': response.data[i], 'neighbor': getNeighborhood(response.data[i].zone_beat) });
 			}
 			console.log($scope.count);
 		});
@@ -494,10 +558,10 @@ myApp.controller('StatCtrl', ['$scope', '$http', function ($scope, $http) {
 		url += "&$select=count(*)";
 		console.log(url);
 		$http.get(url).then(function (response) {
-			var thisYear = response.config.url.substring(86,90);
+			var thisYear = response.config.url.substring(86, 90);
 			console.log(thisYear);
 			for (var i = 0; i < response.data.length; i++) {
-				$scope.statOfYear.push({ 'year': thisYear, 'count': response.data[0].count});
+				$scope.statOfYear.push({ 'year': thisYear, 'count': response.data[0].count });
 			}
 			console.log($scope.statOfYear);
 		});

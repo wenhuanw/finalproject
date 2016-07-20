@@ -24,16 +24,16 @@
                 <tr>
                     <th><a href="">Year</a></th>
                     <th><a href="">Number of Crimes</a></th>
-                    <th><a href="">Zone Code</a></th>
-                    <th><a href="">Area</a></th>
+                    <th><a href="">Zone Beat</a></th>
+                    <th><a href="">Neighborhoods</a></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in count | filter : area" ng-if="item.year >= start_year && item.year <= end_year">
+                <tr ng-repeat="item in count | filter : area | orderBy: 'year' track by $index" ng-if="item.year >= start_year && item.year <= end_year">
                     <td>{{item.year}}</td>
                     <td>{{item.data.count}}</td>
                     <td>{{item.data.zone_beat}}</td>
-                    <td></td>
+                    <td>{{item.neighbor}}</td>
                 </tr>
             </tbody>
         </table>
